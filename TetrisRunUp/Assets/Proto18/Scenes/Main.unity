@@ -215,6 +215,7 @@ MonoBehaviour:
   - {fileID: 1931386651534602, guid: 084559e613f4b8e4898a3169b49325d8, type: 2}
   - {fileID: 1267486370007818, guid: 3b5122f99c4f65c408a2761557cc0546, type: 2}
   insPos: {fileID: 1744234884}
+  player: {fileID: 554964130}
 --- !u!4 &294429695
 Transform:
   m_ObjectHideFlags: 0

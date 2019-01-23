@@ -9,7 +9,13 @@ public class BlockIns : MonoBehaviour {
 
     int nowBlock;
 
+    // 次のブロックを表示
     int display;
+
+    float timeleft;
+
+    public GameObject player;
+    private Vector3 offset;
 
 	void Start () {
         nowBlock = Random.Range(0, block.Length);
@@ -17,19 +23,26 @@ public class BlockIns : MonoBehaviour {
         display = NextBlock();
 
         Debug.Log(display + " : " + nowBlock);
+
+        offset = insPos.transform.position - player.transform.position;
     }
 	
-	/*void Update () {
-        InsBlock();
+	void Update () {
+        Count();
+        insPos.transform.position = player.transform.position + offset;
+	}
 
-        Debug.Log(display + " : " + nowBlock);
-	}*/
-
-    int NextBlock()
+    void Count()
     {
-        int i = Random.Range(0, block.Length);
+        timeleft++;
 
-        return i;
+        if (timeleft >= 100)
+        {
+            InsBlock();
+            timeleft = 0;
+
+            Debug.Log(display + " : " + nowBlock);
+        }
     }
 
     void InsBlock()
@@ -39,4 +52,12 @@ public class BlockIns : MonoBehaviour {
 
         display = NextBlock();
     }
+
+    int NextBlock()
+    {
+        int i = Random.Range(0, block.Length);
+
+        return i;
+    }
+
 }
