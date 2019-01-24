@@ -2,16 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class arrayMap : MonoBehaviour {
-
-    //int[,] map = new int[20, 12];
+public class No1Block : MonoBehaviour {
     
-
-
 	void Start () {
 		
 	}
-	
+
 	void Update () {
 		
 	}
