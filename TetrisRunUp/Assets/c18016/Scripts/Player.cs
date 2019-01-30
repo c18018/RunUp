@@ -11,13 +11,13 @@ public class Player : MonoBehaviour {
     //Player Rigidbody
     private Rigidbody rigid;
 
-    Vector3 playerPos;
+    private Vector3 playerPos;
     public float forceSpeed;
 
     //Player position
-    public float x;
-    public float y;
-    public float z;
+    private float x = 0;
+    private float y = 0;
+    private float z = 0;
 
     public static bool isTouch;
     public static bool isDestroy;
@@ -30,14 +30,14 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         PlayerMove();
-        Debug.Log(isDestroy);
+        //Debug.Log(isTouch);
     }
 
     void PlayerMove()
     {
         //x = Input.GetAxis("Vertical");
         //z = Input.GetAxis("Vertical");
-        z = 1;
+        x = 1.5f;
 
         playerPos = new Vector3(x, y, z) * speed;
 
@@ -46,12 +46,6 @@ public class Player : MonoBehaviour {
         if (isTouch == true)
         {
             rigid.AddForce(transform.up * forceSpeed);
-
-        }
-
-        if(isDestroy == true)
-        {
-            
         }
     }
 }
