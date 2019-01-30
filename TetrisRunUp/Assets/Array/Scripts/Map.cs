@@ -28,16 +28,19 @@ public class Map : MonoBehaviour {
     {
         int i;
         i = UnityEngine.Random.Range(0, 7);
-        state = i;
+        state = 0;
 
         switch (state)
         {
             case 0:
-                int[,] Iblock = { { 0, 0, 1, 0 }, { 0, 0, 1, 0 }, { 0, 0, 1, 0 }, { 0, 0, 1, 0 } };
+                int[,,] Iblock = {
+                    { { 0, 0, 1, 0 }, { 0, 0, 1, 0 }, { 0, 0, 1, 0 }, { 0, 0, 1, 0 } }
+                    {{0,0,1,0},{0,0,1,0}, {0,0,1,0},{0,0,1,0}}
+                };
                 Array.Copy(Iblock, AppearBlc, Iblock.Length);
                 break;
 
-            case 1:
+            /*case 1:
                 int[,] Oblock = { { 0, 1, 1, 0 }, { 0, 1, 1, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
                 Array.Copy(Oblock, AppearBlc, Oblock.Length);
                 break;
@@ -66,8 +69,9 @@ public class Map : MonoBehaviour {
 
                 int[,] Sblock = { { 0, 0, 1, 1 }, { 0, 1, 1, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
                 Array.Copy(Sblock, AppearBlc, Sblock.Length);
-                break;
+                break;*/
         }
+
         Debug.Log(i + "番");
     }
 
