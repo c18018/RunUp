@@ -10,11 +10,11 @@ public class Player : MonoBehaviour {
 
     //Player Rigidbody
     private Rigidbody rigid;
-
-    private Vector3 playerPos;
     public float forceSpeed;
 
     //Player position
+    private Vector3 playerPos;
+
     private float x = 0;
     private float y = 0;
     private float z = 0;
@@ -37,10 +37,9 @@ public class Player : MonoBehaviour {
     {
         //x = Input.GetAxis("Vertical");
         //z = Input.GetAxis("Vertical");
-        x = 1.5f;
+        x = 1.0f;
 
         playerPos = new Vector3(x, y, z) * speed;
-
         transform.Translate(playerPos * Time.deltaTime);
 
         if (isTouch == true)
