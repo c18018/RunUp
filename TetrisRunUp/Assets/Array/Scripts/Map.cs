@@ -4,16 +4,19 @@ using UnityEngine;
 using System;
 
 public class Map : MonoBehaviour {
+    
+    int speedX = 0;
 
     public GameObject cube1;
-    public GameObject cube2;
 
     int state = 0;
 
     int pattern = 0;
     int kind = 0;
 
+    bool normal = true;
     bool next = true;
+    bool rankUp = false;
     
     int down = 0;
     float delta = 1.0f;
@@ -21,15 +24,17 @@ public class Map : MonoBehaviour {
     public int mapX;
     public int mapY;
 
-    public int[,,] map = new int[1,19,20];
+    public int[,,] map = new int[1,19,30];
 
     public int[,,] AppearBlc = new int[4,4,4];
 
     void Start () {
+        
 	}
 
     void random()
     {
+
         if (next)
         {
             kind = UnityEngine.Random.Range(0, 7);
@@ -42,9 +47,9 @@ public class Map : MonoBehaviour {
             case 0:
                 int[,,] Iblock = { 
                     { { 0, 0, 1, 0 }, { 0, 0, 1, 0 }, { 0, 0, 1, 0 }, { 0, 0, 1, 0 } },
-                    { { 0, 0, 0, 0 }, { 1, 1, 1, 1 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } },
+                    { { 1, 1, 1, 1 }, { 0, 0, 0, 0 },  { 0, 0, 0, 0 }, { 0, 0, 0, 0 } },
                     { { 0, 0, 1, 0 }, { 0, 0, 1, 0 }, { 0, 0, 1, 0 }, { 0, 0, 1, 0 } },
-                    { { 0, 0, 0, 0 }, { 1, 1, 1, 1 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } }
+                    { { 1, 1, 1, 1 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } }
                 };
                 Array.Copy(Iblock, AppearBlc, Iblock.Length);
                 break;
@@ -63,7 +68,7 @@ public class Map : MonoBehaviour {
                 int[,,] Tblock = {
                     { { 0, 0, 1, 0 }, { 0, 1, 1, 1 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } },
                     { { 0, 0, 1, 0 }, { 0, 0, 1, 1 }, { 0, 0, 1, 0 }, { 0, 0, 0, 0 } },
-                    { { 0, 0, 0, 0 }, { 0, 1, 1, 1 }, { 0, 0, 1, 0 }, { 0, 0, 0, 0 } },
+                    { { 0, 1, 1, 1 }, { 0, 0, 1, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } },
                     { { 0, 0, 1, 0 }, { 0, 1, 1, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 0 } }
                 };
                 Array.Copy(Tblock, AppearBlc, Tblock.Length);
@@ -74,7 +79,7 @@ public class Map : MonoBehaviour {
                     { { 0, 1, 1, 0 }, { 0, 0, 1, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 0 } },
                     { { 0, 0, 0, 1 }, { 0, 1, 1, 1 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } },
                     { { 0, 0, 1, 0 }, { 0, 0, 1, 0 }, { 0, 0, 1, 1 }, { 0, 0, 0, 0 } },
-                    { { 0, 0, 0, 0 }, { 0, 1, 1, 1 }, { 0, 1, 0, 0 }, { 0, 0, 0, 0 } }
+                    { { 0, 1, 1, 1 }, { 0, 1, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } }
                 };
                 Array.Copy(Lblock, AppearBlc, Lblock.Length);
                 break;
@@ -82,9 +87,9 @@ public class Map : MonoBehaviour {
             case 4:
                 int[,,] Jblock = {
                     { { 0, 0, 1, 1 },{ 0, 0, 1, 0},{ 0, 0, 1, 0},{ 0, 0, 0, 0 } },
-                    { { 0, 0, 0, 0 },{ 0, 1, 1, 1},{ 0, 0, 0, 1},{ 0, 0, 0, 0 } },
+                    { { 0, 1, 1, 1},{ 0, 0, 0, 1},{ 0, 0, 0, 0 },{ 0, 0, 0, 0 } },
                     { { 0, 0, 1, 0 },{ 0, 0, 1, 0},{ 0, 1, 1, 0},{ 0, 0, 0, 0 } },
-                    { { 0, 1, 0, 1 },{ 0, 1, 1, 1},{ 0, 0, 0, 0},{ 0, 0, 0, 0 } }
+                    { { 0, 1, 0, 0 },{ 0, 1, 1, 1},{ 0, 0, 0, 0},{ 0, 0, 0, 0 } }
                 };
                 Array.Copy(Jblock, AppearBlc, Jblock.Length);
                 break;
@@ -113,55 +118,64 @@ public class Map : MonoBehaviour {
     }
 
     void Update () {
-        if(next)
+
+        if (cube1.GetComponent<Block>().Next())
+        {
+            down = 0;
+            next = true;
+            Debug.Log("ok");
+        }
+
+        if (next)
         {
             random();
-            down = 0;
             next = false;
         }
 
-        delta -= Time.deltaTime;
+
+        if (normal) {
+            delta -= Time.deltaTime;
+        }
+        
         if(delta <= 0)
         {
             delta = 1.0f;
+
             Appearance();
         }
+        
     }
-
-
-    /*void Fall()
-    {
-        speed -= Time.deltaTime;
-
-        if (speed <= 0)
-        {
-            speed = 1.0f;
-
-            GameObject[] obj = GameObject.FindGameObjectsWithTag("cube1");
-
-            foreach (GameObject i in obj)
-            {
-                Destroy(i);
-            }
-
-            cube2Up();
-
-            MapForm();
-        }
-    }*/
 
     void Appearance()
     {
+            Read();
+
+            down++;
+
+            MapForm();
+    }
+
+    void Read()
+    {
         random();
 
-        Debug.Log(kind + "番　" + pattern);
 
+        if (down > 14)
+        {
+            Debug.Log(down);
+            down = 0;
+            //rankUp = true;
+            //cubeUp();
+            next = true;
+        }
+
+       
         int x = 0;
         int y = 0;
 
-        for(int i=0; i<16; i++)
+        for (int i = 0; i < 16; i++)
         {
-            map[0, 15+y-down, 10+x] = AppearBlc[pattern, y, x];
+            map[0, 15 + y - down , 10 + x + speedX] = AppearBlc[pattern, y, x];
 
             x++;
             if (x > 3)
@@ -169,31 +183,29 @@ public class Map : MonoBehaviour {
                 x = 0;
                 y++;
             }
+
         }
-
-        down++;
-
-        MapForm();
     }
 
-    /*void cube2Up()
+    void cubeUp()
     {
         int x = 0;
         int y = 0;
+        int count = 0;
 
         foreach (int i in map)
         {
-            if (i == 1 && y > 0 && (map[y - 1, x,0] == 2 || map[y - 1, x,0] == 3))
+            if (i == 1 && y > 0 && (map[0, y - 1, x] == 2 || map[0, y - 1, x] == 3))
             {
-                map[y, x,0] = 2;
+                rankUp = true;
             }
 
-            if (map[y, x,0] == 1 && y > 0)
+            if(i == 1 && map[0, y, x] == 0 && count < 20)
             {
-                map[y - 1, x,0] = map[y, x,0];
-                map[y, x,0] = 0;
+                count++;
+                rankUp =  true;
             }
-
+            
             x++;
             if (x > mapX - 1)
             {
@@ -201,53 +213,95 @@ public class Map : MonoBehaviour {
                 y++;
             }
         }
-    }*/
+
+        if (rankUp)
+        {
+            int xBlc = 0;
+            int yBlc = 0;
+            foreach(int i in AppearBlc)
+            {
+                if(i == 1)
+                {
+                    AppearBlc[pattern, yBlc, xBlc] = 2;
+                }
+
+                xBlc++;
+                if(xBlc > 3)
+                {
+                    xBlc = 0;
+                    yBlc++;
+                }
+            }
+            rankUp = false;
+        }
+    }
 
     void MapForm()
     {
         int x = 0;
         int y = 0;
 
-        GameObject[] obj = GameObject.FindGameObjectsWithTag("cube1");
+       GameObject[] obj = GameObject.FindGameObjectsWithTag("cube1");
         foreach (GameObject i in obj)
         {
             Destroy(i);
         }
 
+        int k = 0;
         foreach (int i in map)
         {
             if (map[0, y, x] == 1)
             {
                 Instantiate(cube1, new Vector3(x, y, 0), Quaternion.identity);
+                map[0, y, x] = 0;
             }
-            /*if(i==2)
-            {
-                Instantiate(cube2, new Vector3(x, y, 0), Quaternion.identity);
-                map[y,x,0] = 3;
-            }*/
 
             x++;
+            k++;
             if (x > mapX - 1)
             {
                 x = 0;
                 y++;
             }
         }
+
+
     }
+
+    
 
     public void RotaButton()
     {
         pattern++;
 
-        if (pattern > 3
-            /*kind == 1 || 
-            ((kind == 0 || kind == 5 || kind == 6) && pattern > 1) ||
-            ((kind == 2 || kind == 3 || kind == 4) && pattern > 3)*/)
+        if (pattern > 3)
         {
             pattern = 0;
         }
 
-        Appearance();
+        Read();
+        MapForm();
+    }
+
+    public void RightButton()
+    {
+        speedX++;
+        Read();
+        MapForm();
+    }
+
+    public void LeftButton()
+    {
+        speedX--;
+        Read();
+        MapForm();
+    }
+
+    public void DownButton()
+    {
+        down++;
+        Read();
+        MapForm();
     }
     
 }
