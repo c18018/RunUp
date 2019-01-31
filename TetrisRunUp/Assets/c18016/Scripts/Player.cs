@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
@@ -29,14 +30,12 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        PlayerMove();
-        //Debug.Log(isTouch);
+        Invoke("PlayerMove", 0.1f);
+        //Debug.Log(transform.position);
     }
 
     void PlayerMove()
     {
-        //x = Input.GetAxis("Vertical");
-        //z = Input.GetAxis("Vertical");
         x = 1.0f;
 
         playerPos = new Vector3(x, y, z) * speed;
@@ -45,6 +44,12 @@ public class Player : MonoBehaviour {
         if (isTouch == true)
         {
             rigid.AddForce(transform.up * forceSpeed);
+        }
+
+        if (FollowCamera.count > 10)
+        {
+            playerPos = new Vector3(1, 1, 0);
+            SceneManager.LoadScene("Result_test");
         }
     }
 }

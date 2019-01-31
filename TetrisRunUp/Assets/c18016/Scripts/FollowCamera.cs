@@ -19,10 +19,11 @@ public class FollowCamera : MonoBehaviour {
     private Vector3 distan;
 
     //determine camera height
-    int count;
+    public static int count;
 
     // Use this for initialization
     void Start () {
+        player.transform.position = new Vector3(1, 1, 0);
         offset = transform.position - player.transform.position;
 	}
 	
