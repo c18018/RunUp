@@ -1811,6 +1811,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cube1: {fileID: 1557141202977878, guid: 4a1d5fa6eef7e39488b7ecdbda38709d, type: 2}
   cube2: {fileID: 1557141202977878, guid: 60fecbb68ea47c24cb20d2a6dcb2fe8e, type: 2}
+  cube0: {fileID: 1265369986459338, guid: 1a8581760c61e864fbfd6fe37dc2624a, type: 2}
   cameraPos: {fileID: 1454163252}
   higher: 3
   mapX: 25
