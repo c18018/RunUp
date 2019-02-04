@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
@@ -23,6 +22,13 @@ public class Player : MonoBehaviour {
     public static bool isTouch;
     public static bool isDestroy;
 
+    Vector3 playermovePos;
+    Vector3 distan;
+
+    int distanX;
+    int distanY;
+
+
     // Use this for initialization
     void Start () {
         rigid = gameObject.GetComponent<Rigidbody>();
@@ -43,13 +49,14 @@ public class Player : MonoBehaviour {
 
         if (isTouch == true)
         {
-            rigid.AddForce(transform.up * forceSpeed);
+            rigid.AddForce((transform.up + transform.forward) * forceSpeed);
+            
         }
 
         if (FollowCamera.count > 10)
         {
             playerPos = new Vector3(1, 1, 0);
-            SceneManager.LoadScene("Result_test");
+            SceneManager.LoadScene("ScoreResult_test");
         }
     }
 }

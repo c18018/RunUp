@@ -29,7 +29,7 @@ public class FollowCamera : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(count);
+        //Debug.Log(count);
 	}
 
     private void LateUpdate()
