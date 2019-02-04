@@ -5,7 +5,7 @@ using System;
 
 public class Block : MonoBehaviour {
 
-    bool next;
+    /*bool next;
     Rigidbody gravity;
 
     private void Start()
@@ -26,4 +26,12 @@ public class Block : MonoBehaviour {
     {
         return next;
     }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if(collision.gameObject.tag == "cube2")
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y - 1, transform.position.z);
+        }
+    }*/
 }

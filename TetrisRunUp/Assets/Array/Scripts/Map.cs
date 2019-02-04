@@ -8,15 +8,22 @@ public class Map : MonoBehaviour {
     int speedX = 0;
 
     public GameObject cube1;
+    public GameObject cube2;
+    
+    int mapPosX=0;
+    int count = 2;
+
+    public GameObject cameraPos;
+    public int higher = 0;
 
     int state = 0;
 
     int pattern = 0;
     int kind = 0;
-
-    bool normal = true;
-    bool next = true;
+    
     bool rankUp = false;
+    
+    bool next = true;
     
     int down = 0;
     float delta = 1.0f;
@@ -24,24 +31,21 @@ public class Map : MonoBehaviour {
     public int mapX;
     public int mapY;
 
-    public int[,,] map = new int[1,19,30];
+    public int[,,] map = new int[1,19,25];
 
     public int[,,] AppearBlc = new int[4,4,4];
 
     void Start () {
-        
-	}
+        for(int i=0; i<mapX; i++)
+        {
+            map[0, 0, i] = 3;
+        }
+    }
+
+    //--------------------------------------------------------------------------
 
     void random()
     {
-
-        if (next)
-        {
-            kind = UnityEngine.Random.Range(0, 7);
-            pattern = UnityEngine.Random.Range(0, 4);
-            state = kind;
-        }
-        
         switch (state)
         {
             case 0:
@@ -117,65 +121,58 @@ public class Map : MonoBehaviour {
         }
     }
 
-    void Update () {
+    //----------------------------------------------------------------------------------
 
-        if (cube1.GetComponent<Block>().Next())
+    void Update ()
+    {
+
+        mapPosX = (int)Math.Truncate(transform.position.x);
+
+        if(count <= mapPosX)
         {
-            down = 0;
-            next = true;
-            Debug.Log("ok");
+            screenSlide();
+            count++;
         }
 
         if (next)
         {
+            kind = UnityEngine.Random.Range(0, 7);
+            pattern = UnityEngine.Random.Range(0, 4);
+            state = kind;
             random();
+            down = 0;
+            speedX = 0;
             next = false;
         }
 
-
-        if (normal) {
-            delta -= Time.deltaTime;
-        }
+        delta -= Time.deltaTime;
         
         if(delta <= 0)
         {
             delta = 1.0f;
-
-            Appearance();
-        }
-        
-    }
-
-    void Appearance()
-    {
             Read();
-
-            down++;
-
+            stopCheck();
             MapForm();
+            down++;
+        }
+
     }
+
+    //ランダムに生成したブロックをマップ配列に移すーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
 
     void Read()
     {
-        random();
-
-
-        if (down > 14)
+        if (down > 13)
         {
-            Debug.Log(down);
-            down = 0;
-            //rankUp = true;
-            //cubeUp();
             next = true;
         }
 
-       
         int x = 0;
         int y = 0;
 
         for (int i = 0; i < 16; i++)
         {
-            map[0, 15 + y - down , 10 + x + speedX] = AppearBlc[pattern, y, x];
+            map[0, 15 + y - down, 10 + x + speedX] = AppearBlc[pattern, y, x];
 
             x++;
             if (x > 3)
@@ -185,27 +182,28 @@ public class Map : MonoBehaviour {
             }
 
         }
-    }
 
-    void cubeUp()
+        
+    }
+    
+    
+    //下が２または３のブロックを2に変えるーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+    
+    void stopCheck()
     {
         int x = 0;
         int y = 0;
-        int count = 0;
 
         foreach (int i in map)
         {
-            if (i == 1 && y > 0 && (map[0, y - 1, x] == 2 || map[0, y - 1, x] == 3))
+
+            if (y > 0 && i == 1 && (map[0, y - 1, x] == 2 || map[0, y - 1, x] == 3))
             {
                 rankUp = true;
+                next = true;
+                break;
             }
 
-            if(i == 1 && map[0, y, x] == 0 && count < 20)
-            {
-                count++;
-                rankUp =  true;
-            }
-            
             x++;
             if (x > mapX - 1)
             {
@@ -216,25 +214,29 @@ public class Map : MonoBehaviour {
 
         if (rankUp)
         {
-            int xBlc = 0;
-            int yBlc = 0;
-            foreach(int i in AppearBlc)
+            int xblc = 0;
+            int yblc = 0;
+
+            foreach(int i in map)
             {
-                if(i == 1)
+                if (i == 1)
                 {
-                    AppearBlc[pattern, yBlc, xBlc] = 2;
+                    map[0, yblc, xblc] = 2;
                 }
 
-                xBlc++;
-                if(xBlc > 3)
+                xblc++;
+                if (xblc > mapX - 1)
                 {
-                    xBlc = 0;
-                    yBlc++;
+                    xblc = 0;
+                    yblc++;
                 }
             }
             rankUp = false;
         }
     }
+    
+
+    //一回cube1タグのオブジェクトを消す。マップ配列の数字の通りにブロックを生成する。ーーーーーーーーーーーーーーーーーー
 
     void MapForm()
     {
@@ -246,29 +248,50 @@ public class Map : MonoBehaviour {
         {
             Destroy(i);
         }
-
-        int k = 0;
+        
         foreach (int i in map)
         {
             if (map[0, y, x] == 1)
             {
-                Instantiate(cube1, new Vector3(x, y, 0), Quaternion.identity);
+                Instantiate(cube1, new Vector3(x+mapPosX-1, y, 0), Quaternion.identity);
                 map[0, y, x] = 0;
             }
 
+            if(map[0, y, x] == 2)
+            {
+                Instantiate(cube2, new Vector3(x+mapPosX-1, y, 0), Quaternion.identity);
+                map[0, y, x] = 3;
+            }
+
             x++;
-            k++;
             if (x > mapX - 1)
             {
                 x = 0;
                 y++;
             }
         }
-
-
     }
 
-    
+    //---------------------------------------------------------------------------------
+
+    void screenUp()
+    {
+        if(higher < cameraPos.transform.position.y)
+        {
+            Array.Copy(map, mapX, map, 0, map.Length - mapX);
+            higher++;
+        }
+    }
+
+    void screenSlide()
+    {
+        for (int i = 0; i < mapY; i++)
+        {
+            Array.Copy(map, mapX * i + 1, map, mapX * i, mapX - 1);
+        }
+    }
+
+    //------------------------------------------------------------------------
 
     public void RotaButton()
     {
@@ -280,20 +303,51 @@ public class Map : MonoBehaviour {
         }
 
         Read();
+        stopCheck();
         MapForm();
+    }
+
+    public void GoButton()
+    {
+        if (map[0,1,2] == 3)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(new Vector3(transform.position.x + 1, transform.position.y, 0),
+                transform.up, out hit, 10))
+            {
+                if (hit.collider.gameObject.tag == "cube2")
+                {
+                    Destroy(hit.collider.gameObject);
+                }
+            }
+
+            for (int i = 0; i < mapY-1; i++)
+            {
+                map[0, i, 2] = map[0, i+1, 2];
+            }
+            
+            if(map[0,1,2] != 0)
+            {
+                map[0, 1, 2] = 2;
+            }
+        }
     }
 
     public void RightButton()
     {
         speedX++;
+        speedX = Mathf.Clamp(speedX, -10, 10);
         Read();
+        stopCheck();
         MapForm();
     }
 
     public void LeftButton()
     {
         speedX--;
+        speedX = Mathf.Clamp(speedX, -10, 10);
         Read();
+        stopCheck();
         MapForm();
     }
 
@@ -301,7 +355,7 @@ public class Map : MonoBehaviour {
     {
         down++;
         Read();
+        stopCheck();
         MapForm();
     }
-    
 }
