@@ -19,8 +19,8 @@ public class Player : MonoBehaviour {
     private float y = 0;
     private float z = 0;
 
-    public static bool isTouch;
-    public static bool isDestroy;
+    //public static bool isTouch;
+    //public static bool isDestroy;
 
     Vector3 playermovePos;
     Vector3 distan;
@@ -46,11 +46,11 @@ public class Player : MonoBehaviour {
         playerPos = new Vector3(x, y, z) * speed;
         transform.Translate(playerPos * Time.deltaTime);
 
-        if (isTouch == true)
+        /*if (isTouch == true)
         {
             rigid.AddForce((transform.up + transform.forward) * forceSpeed);
             
-        }
+        }*/
 
         if (FollowCamera.count > 5)
         {
@@ -58,4 +58,15 @@ public class Player : MonoBehaviour {
             SceneManager.LoadScene("ScoreResult_test");
         }
     }
+
+    //DB = DestroyButton
+    /*public void PointerUp()
+    {
+        Player.isDestroy = false;
+    }
+
+    public void PointerDown()
+    {
+        Player.isDestroy = true;
+    }*/
 }

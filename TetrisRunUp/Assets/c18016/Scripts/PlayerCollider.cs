@@ -14,7 +14,7 @@ public class PlayerCollider : MonoBehaviour {
 
 	}
 
-    private void OnTriggerEnter(Collider other)
+    /*private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Block")
         {
@@ -39,16 +39,7 @@ public class PlayerCollider : MonoBehaviour {
     private void OnTriggerExit(Collider other)
     {
         Player.isTouch = false;
-    }
+    }*/
 
-    //DB = DestroyButton
-    public void PointerUp()
-    {
-        Player.isDestroy = false;
-    } 
-
-    public void PointerDown()
-    {
-        Player.isDestroy = true;
-    }
+    
 }
