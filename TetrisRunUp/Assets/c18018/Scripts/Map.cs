@@ -36,13 +36,7 @@ public class Map : MonoBehaviour {
     public int[,,] map = new int[1,19,25];
 
     public int[,,] AppearBlc = new int[4,4,4];
-
-    void Start () {
-        for(int i=0; i<mapX; i++)
-        {
-            map[0, 0, i] = 3;
-        }
-    }
+    
 
     //--------------------------------------------------------------------------
 
@@ -131,10 +125,15 @@ public class Map : MonoBehaviour {
         mapPosX = (int)Math.Truncate(transform.position.x);
         offset = mapPosX + 1 - transform.position.x;
 
-        if(count <= mapPosX)
+        if(count < mapPosX)
         {
-            screenSlide();
-            count++;
+            screenSlidePlus();
+            count = mapPosX;
+        }
+        if(count > mapPosX)
+        {
+            screenSlideMinus();
+            count = mapPosX;
         }
 
         if (next)
@@ -186,7 +185,11 @@ public class Map : MonoBehaviour {
 
         }
 
-        
+        for (int i = 0; i < mapX; i++)
+        {
+            map[0, 0, i] = 3;
+
+        }
     }
     
     
@@ -200,7 +203,7 @@ public class Map : MonoBehaviour {
         foreach (int i in map)
         {
 
-            if (y > 0 && i == 1 && (map[0, y - 1, x] == 2 || map[0, y - 1, x] == 3))
+            if (y > 0 && i == 1 &&  map[0, y-1, x] != 0/*(map[0, y - 1, x] == 2 || map[0, y - 1, x] == 3)*/)
             {
                 rankUp = true;
                 next = true;
@@ -251,7 +254,7 @@ public class Map : MonoBehaviour {
         {
             Destroy(i);
         }
-        
+
         foreach (int i in map)
         {
             if(map[0, y, x] == 0)
@@ -291,11 +294,22 @@ public class Map : MonoBehaviour {
         }
     }
 
-    void screenSlide()
+    void screenSlidePlus()
     {
         for (int i = 0; i < mapY; i++)
         {
             Array.Copy(map, mapX * i + 1, map, mapX * i, mapX - 1);
+        }
+        Read();
+        stopCheck();
+        MapForm();
+    }
+     
+    void screenSlideMinus()
+    {
+        for (int i = 0; i < mapY; i++)
+        {
+            Array.Copy(map, mapX * i, map, mapX * i + 1, mapX - 1);
         }
         Read();
         stopCheck();
