@@ -6739,7 +6739,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fc8fd56c4e607f4fbfe13a80c92f82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 2060504473}
+  highscoreText: {fileID: 0}
+  scoreText: {fileID: 0}
 --- !u!4 &951096352
 Transform:
   m_ObjectHideFlags: 0
@@ -6766,7 +6767,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 2060504473}
   scoreText: {fileID: 511337811}
-  highscoreText: {fileID: 0}
 --- !u!1 &954771766
 GameObject:
   m_ObjectHideFlags: 0
@@ -10852,6 +10852,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 2060504473}
+  smoothTime: 1
 --- !u!1 &1459266221
 GameObject:
   m_ObjectHideFlags: 0
@@ -15071,6 +15072,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   forceSpeed: 13
+  playerPos: {x: 0, y: 0, z: 0}
 --- !u!135 &2060504475
 SphereCollider:
   m_ObjectHideFlags: 0
