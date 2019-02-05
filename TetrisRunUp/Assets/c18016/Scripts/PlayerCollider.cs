@@ -30,6 +30,7 @@ public class PlayerCollider : MonoBehaviour {
             if (Player.isDestroy == true)
             {
                 Destroy(other.gameObject);
+                Player.isDestroyed = true;
                 Player.isTouch = false;
                 Player.isDestroy = false;
             }

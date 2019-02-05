@@ -25,7 +25,7 @@ public class Score : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         ScoreCal();
-        Debug.Log("" + x + "," + y);
+        Debug.Log(Player.isDestroyed);
         scoreText.text = "" + score;
 	}
 

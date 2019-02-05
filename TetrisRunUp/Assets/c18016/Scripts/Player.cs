@@ -13,7 +13,7 @@ public class Player : MonoBehaviour {
     public float forceSpeed;
 
     //Player position
-    private Vector3 playerPos;
+    public Vector3 playerPos;
 
     private float x = 0;
     private float y = 0;
@@ -21,6 +21,7 @@ public class Player : MonoBehaviour {
 
     public static bool isTouch;
     public static bool isDestroy;
+    public static bool isDestroyed;
 
     Vector3 playermovePos;
     Vector3 distan;
@@ -28,6 +29,7 @@ public class Player : MonoBehaviour {
     int distanX;
     int distanY;
 
+    float timer;
 
     // Use this for initialization
     void Start () {
@@ -51,6 +53,21 @@ public class Player : MonoBehaviour {
         {
             rigid.AddForce((transform.up + transform.forward) * forceSpeed);
             
+        }
+
+        if(isDestroyed == true)
+        {
+            timer += Time.deltaTime;
+            Debug.Log(timer);
+
+            x = -2.0f;
+            playerPos = new Vector3(x, y, z) * speed;
+            transform.Translate(playerPos * Time.deltaTime);
+            if(timer > 0.5f)
+            {
+                isDestroyed = false;
+                timer = 0.0f;
+            }
         }
 
         if (FollowCamera.count > 10)
