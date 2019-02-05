@@ -58,7 +58,7 @@ public class Player : MonoBehaviour {
         if(isDestroyed == true)
         {
             timer += Time.deltaTime;
-            Debug.Log(timer);
+            //Debug.Log(timer);
 
             x = -2.0f;
             playerPos = new Vector3(x, y, z) * speed;
@@ -70,7 +70,7 @@ public class Player : MonoBehaviour {
             }
         }
 
-        if (FollowCamera.count > 10)
+        if (FollowCamera.count > 5)
         {
             playerPos = new Vector3(1, 1, 0);
             SceneManager.LoadScene("ScoreResult_test");
