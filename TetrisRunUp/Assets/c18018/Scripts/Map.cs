@@ -7,6 +7,8 @@ public class Map : MonoBehaviour {
     
     int speedX = 0;
 
+    AudioSource blokMove;
+
     public GameObject cube1;
     public GameObject cube2;
     public GameObject cube0;
@@ -41,7 +43,7 @@ public class Map : MonoBehaviour {
 
     private void Start()
     {
-
+        blokMove = GetComponent<AudioSource>();
         //offset0 = (int)Math.Truncate(player.transform.position.x - cameraPos.transform.position.x);
     }
 
@@ -342,6 +344,7 @@ public class Map : MonoBehaviour {
         Read();
         stopCheck();
         MapForm();
+        blokMove.PlayOneShot(blokMove.clip);
     }
 
     /*public void GoButton()
@@ -377,6 +380,7 @@ public class Map : MonoBehaviour {
         Read();
         stopCheck();
         MapForm();
+        blokMove.PlayOneShot(blokMove.clip);
     }
 
     public void LeftButton()
@@ -386,6 +390,7 @@ public class Map : MonoBehaviour {
         Read();
         stopCheck();
         MapForm();
+        blokMove.PlayOneShot(blokMove.clip);
     }
 
     public void DownButton()
@@ -394,5 +399,6 @@ public class Map : MonoBehaviour {
         Read();
         stopCheck();
         MapForm();
+        blokMove.PlayOneShot(blokMove.clip);
     }
 }
