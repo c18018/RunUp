@@ -655,11 +655,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 821900838}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -11, y: -6, z: 16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2060504478}
-  m_RootOrder: 1
+  m_Father: {fileID: 1454163255}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &821900840
 MonoBehaviour:
@@ -675,6 +675,7 @@ MonoBehaviour:
   cube1: {fileID: 1557141202977878, guid: 4a1d5fa6eef7e39488b7ecdbda38709d, type: 2}
   cube2: {fileID: 1557141202977878, guid: 60fecbb68ea47c24cb20d2a6dcb2fe8e, type: 2}
   cube0: {fileID: 1265369986459338, guid: 1a8581760c61e864fbfd6fe37dc2624a, type: 2}
+  player: {fileID: 2060504473}
   cameraPos: {fileID: 1454163252}
   higher: 3
   mapX: 25
@@ -1243,7 +1244,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 11, y: 6, z: -16}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 821900839}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1912,7 +1914,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1850212049}
-  - {fileID: 821900839}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

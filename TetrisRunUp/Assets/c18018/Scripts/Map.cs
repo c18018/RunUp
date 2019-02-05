@@ -10,10 +10,12 @@ public class Map : MonoBehaviour {
     public GameObject cube1;
     public GameObject cube2;
     public GameObject cube0;
-    
-    int mapPosX=0;
+
+    public GameObject player;
+    int playerPosX=0;
     int count = 2;
-    float offset;
+    //int offset0;
+    //int offset;
 
     public GameObject cameraPos;
     public int higher = 0;
@@ -36,7 +38,13 @@ public class Map : MonoBehaviour {
     public int[,,] map = new int[1,19,25];
 
     public int[,,] AppearBlc = new int[4,4,4];
-    
+
+    private void Start()
+    {
+
+        //offset0 = (int)Math.Truncate(player.transform.position.x - cameraPos.transform.position.x);
+    }
+
 
     //--------------------------------------------------------------------------
 
@@ -122,18 +130,17 @@ public class Map : MonoBehaviour {
     void Update ()
     {
 
-        mapPosX = (int)Math.Truncate(transform.position.x);
-        offset = mapPosX + 1 - transform.position.x;
+        playerPosX = (int)Math.Truncate(player.transform.position.x);
 
-        if(count < mapPosX)
+        if(count < playerPosX)
         {
             screenSlidePlus();
-            count = mapPosX;
+            count = playerPosX;
         }
-        if(count > mapPosX)
+        if(count > playerPosX)
         {
             screenSlideMinus();
-            count = mapPosX;
+            count = playerPosX;
         }
 
         if (next)
@@ -203,7 +210,7 @@ public class Map : MonoBehaviour {
         foreach (int i in map)
         {
 
-            if (y > 0 && i == 1 &&  map[0, y-1, x] != 0/*(map[0, y - 1, x] == 2 || map[0, y - 1, x] == 3)*/)
+            if (y > 0 && i == 1 && (map[0, y - 1, x] == 2 || map[0, y - 1, x] == 3))
             {
                 rankUp = true;
                 next = true;
@@ -259,18 +266,21 @@ public class Map : MonoBehaviour {
         {
             if(map[0, y, x] == 0)
             {
-                Instantiate(cube0, new Vector3(x + mapPosX, y, 0), Quaternion.identity);
+                Instantiate(cube0, new Vector3(x + playerPosX,
+                    y+(int)Math.Truncate(transform.position.y), 0), Quaternion.identity);
             }
 
             if (map[0, y, x] == 1)
             {
-                Instantiate(cube1, new Vector3(x + mapPosX, y, 0), Quaternion.identity);
+                Instantiate(cube1, new Vector3(x + playerPosX,
+                    y+(int)Math.Truncate(transform.position.y), 0), Quaternion.identity);
                 map[0, y, x] = 0;
             }
 
             if(map[0, y, x] == 2)
             {
-                Instantiate(cube2, new Vector3(x + mapPosX, y, 0), Quaternion.identity);
+                Instantiate(cube2, new Vector3(x + playerPosX, 
+                    y+(int)Math.Truncate(transform.position.y), 0), Quaternion.identity);
                 map[0, y, x] = 3;
             }
 
@@ -300,6 +310,7 @@ public class Map : MonoBehaviour {
         {
             Array.Copy(map, mapX * i + 1, map, mapX * i, mapX - 1);
         }
+        speedX--;
         Read();
         stopCheck();
         MapForm();
@@ -311,6 +322,7 @@ public class Map : MonoBehaviour {
         {
             Array.Copy(map, mapX * i, map, mapX * i + 1, mapX - 1);
         }
+        speedX++;
         Read();
         stopCheck();
         MapForm();
@@ -326,37 +338,37 @@ public class Map : MonoBehaviour {
         {
             pattern = 0;
         }
-
+        
         Read();
         stopCheck();
         MapForm();
     }
 
-    public void GoButton()
+    /*public void GoButton()
     {
-        if (map[0,1,1] == 3)
+        offset = (int)Math.Truncate(player.transform.position.x - cameraPos.transform.position.x);
+        int Ypos = offset0 - offset;
+        Debug.Log(Ypos);
+
+        for (int i = 1; i < mapY - 1; i++)
+        {
+            map[0, i, 2] = map[0, i+1, 2];
+        }
+
+        if (map[0,Ypos+1,2] == 3)
         {
             RaycastHit hit;
-            if (Physics.Raycast(new Vector3(transform.position.x + 1, transform.position.y, 0),
-                transform.up, out hit, 10))
+            if (Physics.Raycast(new Vector3(player.transform.position.x + 1, player.transform.position.y, 0),
+                transform.up, out hit, Mathf.Infinity))
             {
                 if (hit.collider.gameObject.tag == "Block")
                 {
                     Destroy(hit.collider.gameObject);
                 }
             }
-
-            for (int i = 0; i < mapY-1; i++)
-            {
-                map[0, i, 2] = map[0, i+1, 2];
-            }
-            
-            if(map[0,1,1] != 0)
-            {
-                map[0, 1, 1] = 2;
-            }
         }
-    }
+        MapForm();
+    }*/
 
     public void RightButton()
     {
