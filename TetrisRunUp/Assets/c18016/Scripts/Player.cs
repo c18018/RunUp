@@ -10,7 +10,8 @@ public class Player : MonoBehaviour {
 
     //Player Rigidbody
     private Rigidbody rigid;
-    public float forceSpeed;
+    public float forceUp;
+    public float forceRight;
 
     //Player position
     public Vector3 playerPos;
@@ -37,6 +38,7 @@ public class Player : MonoBehaviour {
 	void Update () {
         Invoke("PlayerMove", 0.1f);
         //Debug.Log(transform.position);
+        //Jump();
     }
 
     void PlayerMove()
@@ -59,14 +61,23 @@ public class Player : MonoBehaviour {
         }
     }
 
-    //DB = DestroyButton
-    /*public void PointerUp()
+    public void Jump()
     {
-        Player.isDestroy = false;
+        /*y = 1.0f;
+
+        playerPos = new Vector3(x, y, z) * speed;
+        transform.Translate(playerPos * Time.deltaTime);*/
+
+        rigid.AddForce(transform.up * forceUp);
+        rigid.AddForce(transform.right * forceRight);
     }
 
-    public void PointerDown()
+
+    public void OnClickJump()
     {
-        Player.isDestroy = true;
-    }*/
+        Debug.Log("Jump!!");
+        Jump();
+    }
+
+
 }
