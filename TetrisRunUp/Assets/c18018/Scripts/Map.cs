@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class Map : MonoBehaviour {
     
@@ -12,6 +13,14 @@ public class Map : MonoBehaviour {
     public GameObject cube1;
     public GameObject cube2;
     public GameObject cube0;
+
+    public Sprite[] nextBlock = new Sprite[28];
+    public Image[] nextImage = new Image[2];
+    int kind1;
+    int kind2;
+    int pattern1;
+    int pattern2;
+    int numSp;
 
     public GameObject player;
     int playerPosX=0;
@@ -43,6 +52,12 @@ public class Map : MonoBehaviour {
 
     private void Start()
     {
+        NextBlock();
+        nextImage[0].sprite = nextBlock[numSp];
+        kind1 = kind2;
+        pattern1 = pattern2;
+        NextBlock();
+        
         blokMove = GetComponent<AudioSource>();
         //offset0 = (int)Math.Truncate(player.transform.position.x - cameraPos.transform.position.x);
     }
@@ -85,46 +100,59 @@ public class Map : MonoBehaviour {
                 break;
 
             case 3:
-                int[,,] Lblock = { 
+                int[,,] Jblock = { 
                     { { 0, 1, 1, 0 }, { 0, 0, 1, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 0 } },
                     { { 0, 0, 0, 1 }, { 0, 1, 1, 1 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } },
                     { { 0, 0, 1, 0 }, { 0, 0, 1, 0 }, { 0, 0, 1, 1 }, { 0, 0, 0, 0 } },
                     { { 0, 1, 1, 1 }, { 0, 1, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } }
                 };
-                Array.Copy(Lblock, AppearBlc, Lblock.Length);
+                Array.Copy(Jblock, AppearBlc, Jblock.Length);
                 break;
 
             case 4:
-                int[,,] Jblock = {
+                int[,,] Lblock = {
                     { { 0, 1, 1, 0 },{ 0, 1, 0, 0},{ 0, 1, 0, 0},{ 0, 0, 0, 0 } },
                     { { 0, 1, 1, 1},{ 0, 0, 0, 1},{ 0, 0, 0, 0 },{ 0, 0, 0, 0 } },
                     { { 0, 0, 1, 0 },{ 0, 0, 1, 0},{ 0, 1, 1, 0},{ 0, 0, 0, 0 } },
                     { { 0, 1, 0, 0 },{ 0, 1, 1, 1},{ 0, 0, 0, 0},{ 0, 0, 0, 0 } }
                 };
-                Array.Copy(Jblock, AppearBlc, Jblock.Length);
+                Array.Copy(Lblock, AppearBlc, Lblock.Length);
                 break;
 
             case 5:
-                int[,,] Zblock = {
+                int[,,] Sblock = {
                     { { 0, 1, 1, 0 }, { 0, 0, 1, 1 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } },
                     { { 0, 0, 1, 0 }, { 0, 1, 1, 0 }, { 0, 1, 0, 0 }, { 0, 0, 0, 0 } },
                     { { 0, 1, 1, 0 }, { 0, 0, 1, 1 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } },
                     { { 0, 0, 1, 0 }, { 0, 1, 1, 0 }, { 0, 1, 0, 0 }, { 0, 0, 0, 0 } }
                 };
-                Array.Copy(Zblock, AppearBlc, Zblock.Length);
+                Array.Copy(Sblock, AppearBlc, Sblock.Length);
                 break;
 
             case 6:
 
-                int[,,] Sblock = {
+                int[,,] Zblock = {
                     { { 0, 0, 1, 1 }, { 0, 1, 1, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } },
                     { { 0, 1, 0, 0 }, { 0, 1, 1, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 0 } },
                     { { 0, 0, 1, 1 }, { 0, 1, 1, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } },
                     { { 0, 1, 0, 0 }, { 0, 1, 1, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 0 } }
                 };
-                Array.Copy(Sblock, AppearBlc, Sblock.Length);
+                Array.Copy(Zblock, AppearBlc, Zblock.Length);
                 break;
         }
+    }
+
+
+    //--------------------------------------------------------------------------------
+
+    void NextBlock()
+    {
+        kind2 = UnityEngine.Random.Range(0, 7);
+        pattern2 = UnityEngine.Random.Range(0, 4);
+
+        numSp = 4 * kind2 + pattern2;
+
+        nextImage[1].sprite = nextBlock[numSp];
     }
 
     //----------------------------------------------------------------------------------
@@ -147,8 +175,12 @@ public class Map : MonoBehaviour {
 
         if (next)
         {
-            kind = UnityEngine.Random.Range(0, 7);
-            pattern = UnityEngine.Random.Range(0, 4);
+            kind = kind1;
+            pattern = pattern1;
+            kind1 = kind2;
+            pattern1 = pattern2;
+            nextImage[0].sprite = nextBlock[numSp];
+            NextBlock();
             state = kind;
             random();
             down = 0;
