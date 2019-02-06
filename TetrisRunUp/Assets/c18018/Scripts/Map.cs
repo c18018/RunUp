@@ -298,11 +298,11 @@ public class Map : MonoBehaviour {
 
         foreach (int i in map)
         {
-            if(map[0, y, x] == 0)
+            /*if(map[0, y, x] == 0)
             {
                 Instantiate(cube0, new Vector3(x + playerPosX,
                     y+(int)Math.Truncate(transform.position.y), 0), Quaternion.identity);
-            }
+            }*/
 
             if (map[0, y, x] == 1)
             {
