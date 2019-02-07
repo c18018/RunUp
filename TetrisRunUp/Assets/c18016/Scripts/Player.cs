@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
+    PlayerCollider playerCol;
 
     //Player move speed
     public float speed;
@@ -11,17 +12,22 @@ public class Player : MonoBehaviour {
     //Player Rigidbody
     private Rigidbody rigid;
     public float forceUp;
-    public float forceRight;
+    public float jumpWaitTime;
 
     //Player position
-    public Vector3 playerPos;
-
+    Vector3 playerPos;
+    //Vector3 playerJampPos;
+    
+    /*
     private float x = 0;
     private float y = 0;
     private float z = 0;
+    */
 
-    //public static bool isTouch;
-    //public static bool isDestroy;
+    //int countJump = 0;
+
+    //private bool isTouch = false;
+    private bool isJump;
 
     Vector3 playermovePos;
     Vector3 distan;
@@ -32,27 +38,31 @@ public class Player : MonoBehaviour {
     // Use this for initialization
     void Start () {
         rigid = gameObject.GetComponent<Rigidbody>();
+        playerCol = GetComponentInChildren<PlayerCollider>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
         Invoke("PlayerMove", 0.1f);
-        //Debug.Log(transform.position);
-        //Jump();
+        //Debug.Log(playerJampPos);
     }
 
     void PlayerMove()
     {
-        x = 1.0f;
+        //playerPos = new Vector3(x, y, z) * speed;
+        transform.Translate(Vector3.right * Time.deltaTime * speed);
 
-        playerPos = new Vector3(x, y, z) * speed;
-        transform.Translate(playerPos * Time.deltaTime);
-
-        /*if (isTouch == true)
+        if (playerCol.isJump())
         {
-            rigid.AddForce((transform.up + transform.forward) * forceSpeed);
-            
-        }*/
+            Jump();
+        }
+
+        if (isJump && playerCol.isHighJump())
+        {
+            //Jump();
+            Invoke("ButtonJump", jumpWaitTime);
+            //ButtonJump();
+        }
 
         if (FollowCamera.count > 5)
         {
@@ -61,23 +71,29 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public void Jump()
+    void Jump()
     {
-        /*y = 1.0f;
-
-        playerPos = new Vector3(x, y, z) * speed;
-        transform.Translate(playerPos * Time.deltaTime);*/
-
+        transform.Translate(transform.up * Time.deltaTime * speed);
         rigid.AddForce(transform.up * forceUp);
-        rigid.AddForce(transform.right * forceRight);
+        //rigid.AddForce(transform.right * forceRight);
     }
 
-
-    public void OnClickJump()
+    void ButtonJump()
     {
-        Debug.Log("Jump!!");
-        Jump();
+        transform.Translate(transform.up * Time.deltaTime * speed);
+        rigid.AddForce((transform.up - rigid.velocity) * forceUp * 3);
     }
 
+    public void OnJBDown()
+    {
+        if (playerCol.isHighJump())
+        {
+            isJump = true;
+        }
+    }
 
+    public void OnJBUp()
+    {
+            isJump = false;
+    }
 }

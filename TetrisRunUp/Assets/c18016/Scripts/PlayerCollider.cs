@@ -4,42 +4,79 @@ using UnityEngine;
 
 public class PlayerCollider : MonoBehaviour {
 
+    bool touch = false;
+    bool jump = false;
+    bool highJump = false;
+
+    public bool isTouch()
+    {
+        return touch;
+    }
+
+    public bool isJump()
+    {
+        return jump;
+    }
+
+    public bool isHighJump()
+    {
+        return highJump;
+    }
+
     // Use this for initialization
     void Start () {
-
+        
 	}
 	
 	// Update is called once per frame
-	void Update () {
-
+	void Update () { 
+        //Debug.Log(jump);
 	}
 
-    /*private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
+        //Debug.Log("Enter");
         if (other.gameObject.tag == "Block")
         {
-            Player.isTouch = true;
-            //Debug.Log(Player.isTouch);
+            //touch = true;
+            jump = true;
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "Block")
+        //Debug.Log("Stay");
+        if(other.gameObject.tag == "Block")
         {
-            if (Player.isDestroy == true)
-            {
-                Destroy(other.gameObject);
-                Player.isTouch = false;
-                Player.isDestroy = false;
-            }
+            //touch = true;
+            highJump = true;
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    void OnTriggerExit(Collider other)
     {
-        Player.isTouch = false;
+        //Debug.Log("Exit");
+        if(other.gameObject.tag == "Block")
+        {
+            //touch = false;
+            jump = false;
+            highJump = false;
+        }
+    }
+
+    /*private void OnCollisionStay(Collision collision)
+    {
+        isTouch = true;
     }*/
 
-    
+    /*private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Block")
+        {
+            touch = false;
+        }
+        //isTouch = false;
+
+    }*/
+
 }
