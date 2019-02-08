@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class SceneController : MonoBehaviour {
     public Text highscoreText;
     public Text scoreText;
+    public Player playercs;
 
     int score;
     int highscore;
@@ -35,6 +36,12 @@ public class SceneController : MonoBehaviour {
     {
         SceneManager.LoadScene("Title_test");
     }
+
+    /*public void OnClickJump()
+    {
+        Debug.Log("Jump!!");
+        playercs.Jump();
+    }*/
 
 
     void IsScene()
