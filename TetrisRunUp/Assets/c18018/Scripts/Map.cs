@@ -27,7 +27,6 @@ public class Map : MonoBehaviour {
     int count = 2;
 
     public GameObject cameraPos;
-    public int higher = 0;
 
     int state = 0;
 
@@ -48,8 +47,12 @@ public class Map : MonoBehaviour {
 
     public int[,,] AppearBlc = new int[4,4,4];
 
+    private int high0 = 0;
+
     private void Start()
     {
+        high0 = (int)Math.Truncate(player.transform.position.y);
+
         NextBlock();
         nextImage[0].sprite = nextBlock[numSp];
         kind1 = kind2;
@@ -154,11 +157,13 @@ public class Map : MonoBehaviour {
 
     //----------------------------------------------------------------------------------
     bool auto = true;
+    int high = 0;
 
     void Update ()
     {
 
         playerPosX = (int)Math.Truncate(player.transform.position.x);
+        high = (int)Math.Truncate(player.transform.position.y);
 
         if(count < playerPosX)
         {
@@ -169,6 +174,10 @@ public class Map : MonoBehaviour {
         {
             screenSlideMinus();
             count = playerPosX;
+        }
+        if(high0 < high)
+        {
+            screenUp();
         }
 
         if (next)
@@ -356,11 +365,8 @@ public class Map : MonoBehaviour {
 
     void screenUp()
     {
-        if(higher < cameraPos.transform.position.y)
-        {
-            Array.Copy(map, mapX, map, 0, map.Length - mapX);
-            higher++;
-        }
+        Array.Copy(map, mapX, map, 0, map.Length - mapX);
+        high0 = high;
     }
 
     void screenSlidePlus()
