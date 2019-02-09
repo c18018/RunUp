@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
     PlayerCollider playerCol;
+    SliderController sliderCtrl;
 
     //Player move speed
     public float speed;
@@ -26,23 +27,26 @@ public class Player : MonoBehaviour {
     int distanX;
     int distanY;
 
+    GameObject energyOb;
+    public static bool destroyed = false;
+
     // Use this for initialization
     void Start () {
         rigid = gameObject.GetComponent<Rigidbody>();
         playerCol = GetComponentInChildren<PlayerCollider>();
+        sliderCtrl = GameObject.FindGameObjectWithTag("GameCtrl").GetComponent<SliderController>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
         Invoke("PlayerMove", 0.1f);
-        //Debug.Log(playerJampPos);
+        //Debug.Log(playerCol.isJump());
     }
 
     void PlayerMove()
     {
         //Animation Walk
-
-        //playerPos = new Vector3(x, y, z) * speed;
+        
         transform.Translate(Vector3.right * Time.deltaTime * speed);
 
         if (playerCol.isJump())
@@ -54,8 +58,7 @@ public class Player : MonoBehaviour {
         if (isJump && playerCol.isHighJump())
         {
             //Animation HighJump
-
-            //Jump();
+            
             Invoke("ButtonJump", jumpWaitTime);
             //ButtonJump();
         }
@@ -81,7 +84,7 @@ public class Player : MonoBehaviour {
 
     public void OnJBDown()
     {
-        if (playerCol.isHighJump())
+        if (playerCol.isHighJump() && sliderCtrl.sliderValue() > 0)
         {
             isJump = true;
         }
@@ -90,5 +93,20 @@ public class Player : MonoBehaviour {
     public void OnJBUp()
     {
             isJump = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Energy")
+        {
+            energyOb = other.gameObject;
+            OnDestroy();
+        }
+    }
+
+    private void OnDestroy()
+    {
+        destroyed = true;
+        Destroy(energyOb);
     }
 }

@@ -9,6 +9,8 @@ TagManager:
   - cube2
   - Slider
   - Collider
+  - Energy
+  - GameCtrl
   layers:
   - Default
   - TransparentFX

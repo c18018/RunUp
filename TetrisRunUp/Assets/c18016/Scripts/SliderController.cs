@@ -5,12 +5,17 @@ using UnityEngine.UI;
 
 public class SliderController : MonoBehaviour {
 
-    Slider slider;
+    public static Slider slider;
     PlayerCollider playerCollider;
 
     float timer;
 
     float jumpEnergy;
+
+    public float sliderValue()
+    {
+        return jumpEnergy;
+    }
 
 	// Use this for initialization
 	void Start () {
@@ -21,15 +26,20 @@ public class SliderController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(Player.isJump && playerCollider.isHighJump())
-        {
-            timer += 1 * Time.deltaTime;
-            Debug.Log((int)timer);
+        SliderEnergy();
+	}
 
-            if(timer > 2 && playerCollider.isHighJump())
+    void SliderEnergy()
+    {
+        if (Player.isJump && playerCollider.isHighJump())
+        {
+            Timer();
+
+            if (timer > 2 && playerCollider.isHighJump() /*&& jumpEnergy > 0*/)
             {
                 jumpEnergy -= 20 * Time.deltaTime;
-                if(jumpEnergy < slider.minValue || !playerCollider.isHighJump())
+
+                if (jumpEnergy < slider.minValue && playerCollider.isHighJump())
                 {
                     Player.isJump = false;
                     Debug.Log("Empty");
@@ -40,12 +50,23 @@ public class SliderController : MonoBehaviour {
         }
         else
         {
-            jumpEnergy = slider.maxValue;
+            //jumpEnergy = slider.maxValue;
             timer = 0;
         }
 
         slider.value = jumpEnergy;
-        
-	}
 
+        if (Player.destroyed)
+        {
+            jumpEnergy = slider.maxValue;
+            Player.destroyed = false;
+        }
+
+    }
+
+    void Timer()
+    {
+        timer += 1 * Time.deltaTime;
+        //Debug.Log((int)timer);
+    }
 }
