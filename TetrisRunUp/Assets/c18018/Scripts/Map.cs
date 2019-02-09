@@ -25,11 +25,8 @@ public class Map : MonoBehaviour {
     public GameObject player;
     int playerPosX=0;
     int count = 2;
-    //int offset0;
-    //int offset;
 
     public GameObject cameraPos;
-    public int higher = 0;
 
     int state = 0;
 
@@ -46,12 +43,16 @@ public class Map : MonoBehaviour {
     public int mapX;
     public int mapY;
 
-    public int[,,] map = new int[1,19,25];
+    public int[,,] map = new int[1,20,25];
 
     public int[,,] AppearBlc = new int[4,4,4];
 
+    private int high0 = 0;
+
     private void Start()
     {
+        high0 = (int)Math.Truncate(player.transform.position.y);
+
         NextBlock();
         nextImage[0].sprite = nextBlock[numSp];
         kind1 = kind2;
@@ -59,7 +60,6 @@ public class Map : MonoBehaviour {
         NextBlock();
         
         blokMove = GetComponent<AudioSource>();
-        //offset0 = (int)Math.Truncate(player.transform.position.x - cameraPos.transform.position.x);
     }
 
 
@@ -156,11 +156,14 @@ public class Map : MonoBehaviour {
     }
 
     //----------------------------------------------------------------------------------
+    bool auto = true;
+    int high = 0;
 
     void Update ()
     {
 
         playerPosX = (int)Math.Truncate(player.transform.position.x);
+        high = (int)Math.Truncate(player.transform.position.y);
 
         if(count < playerPosX)
         {
@@ -171,6 +174,10 @@ public class Map : MonoBehaviour {
         {
             screenSlideMinus();
             count = playerPosX;
+        }
+        if(high0 < high)
+        {
+            screenUp();
         }
 
         if (next)
@@ -188,34 +195,37 @@ public class Map : MonoBehaviour {
             next = false;
         }
 
-        delta -= Time.deltaTime;
+        if (auto)
+        {
+            delta -= Time.deltaTime;
+        }
         
         if(delta <= 0)
         {
             delta = 0.5f;
-            Read();
-            stopCheck();
-            MapForm();
             down++;
+            down = Mathf.Clamp(down, 0, 15);
+            Read();
         }
 
     }
 
     //ランダムに生成したブロックをマップ配列に移すーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
 
-    void Read()
-    {
-        if (down > 13)
-        {
-            next = true;
-        }
+    bool buttonTF = true;
 
+    void check()
+    {
         int x = 0;
         int y = 0;
 
         for (int i = 0; i < 16; i++)
         {
-            map[0, 15 + y - down, 10 + x + speedX] = AppearBlc[pattern, y, x];
+            if (map[0, 16 + y - down, 10 + x + speedX] > 1)
+            {
+                buttonTF = false;
+                break;
+            }
 
             x++;
             if (x > 3)
@@ -226,16 +236,45 @@ public class Map : MonoBehaviour {
 
         }
 
+        Read();
+    }
+
+
+
+    void Read()
+    {
+        if (down > 15)
+        {
+            next = true;
+            return;
+        }
+
+        int x = 0;
+        int y = 0;
+        for (int i = 0; i < 16; i++)
+        {
+            if (AppearBlc[pattern, y, x] == 1)
+            {
+                map[0, 16 + y - down, 10 + x + speedX] = AppearBlc[pattern, y, x];
+            }
+
+            x++;
+            if (x > 3)
+            {
+                x = 0;
+                y++;
+            }
+        }
         for (int i = 0; i < mapX; i++)
         {
             map[0, 0, i] = 3;
-
         }
+        stopCheck();
     }
-    
-    
+
+
     //下が２または３のブロックを2に変えるーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
-    
+
     void stopCheck()
     {
         int x = 0;
@@ -243,8 +282,7 @@ public class Map : MonoBehaviour {
 
         foreach (int i in map)
         {
-
-            if (y > 0 && i == 1 && (map[0, y - 1, x] == 2 || map[0, y - 1, x] == 3))
+            if (y > 0 && i == 1 && map[0, y - 1, x] == 3)
             {
                 rankUp = true;
                 next = true;
@@ -280,6 +318,7 @@ public class Map : MonoBehaviour {
             }
             rankUp = false;
         }
+        MapForm();
     }
     
 
@@ -298,12 +337,6 @@ public class Map : MonoBehaviour {
 
         foreach (int i in map)
         {
-            /*if(map[0, y, x] == 0)
-            {
-                Instantiate(cube0, new Vector3(x + playerPosX,
-                    y+(int)Math.Truncate(transform.position.y), 0), Quaternion.identity);
-            }*/
-
             if (map[0, y, x] == 1)
             {
                 Instantiate(cube1, new Vector3(x + playerPosX,
@@ -316,6 +349,7 @@ public class Map : MonoBehaviour {
                 Instantiate(cube2, new Vector3(x + playerPosX, 
                     y+(int)Math.Truncate(transform.position.y), 0), Quaternion.identity);
                 map[0, y, x] = 3;
+                next = true;
             }
 
             x++;
@@ -331,11 +365,8 @@ public class Map : MonoBehaviour {
 
     void screenUp()
     {
-        if(higher < cameraPos.transform.position.y)
-        {
-            Array.Copy(map, mapX, map, 0, map.Length - mapX);
-            higher++;
-        }
+        Array.Copy(map, mapX, map, 0, map.Length - mapX);
+        high0 = high;
     }
 
     void screenSlidePlus()
@@ -345,9 +376,8 @@ public class Map : MonoBehaviour {
             Array.Copy(map, mapX * i + 1, map, mapX * i, mapX - 1);
         }
         speedX--;
+        speedX = Mathf.Clamp(speedX, -9, 10);
         Read();
-        stopCheck();
-        MapForm();
     }
      
     void screenSlideMinus()
@@ -357,9 +387,8 @@ public class Map : MonoBehaviour {
             Array.Copy(map, mapX * i, map, mapX * i + 1, mapX - 1);
         }
         speedX++;
+        speedX = Mathf.Clamp(speedX, -9, 10);
         Read();
-        stopCheck();
-        MapForm();
     }
 
     //------------------------------------------------------------------------
@@ -372,65 +401,57 @@ public class Map : MonoBehaviour {
         {
             pattern = 0;
         }
-        
         Read();
-        stopCheck();
-        MapForm();
         blokMove.PlayOneShot(blokMove.clip);
     }
 
-    /*public void GoButton()
-    {
-        offset = (int)Math.Truncate(player.transform.position.x - cameraPos.transform.position.x);
-        int Ypos = offset0 - offset;
-        Debug.Log(Ypos);
-
-        for (int i = 1; i < mapY - 1; i++)
-        {
-            map[0, i, 2] = map[0, i+1, 2];
-        }
-
-        if (map[0,Ypos+1,2] == 3)
-        {
-            RaycastHit hit;
-            if (Physics.Raycast(new Vector3(player.transform.position.x + 1, player.transform.position.y, 0),
-                transform.up, out hit, Mathf.Infinity))
-            {
-                if (hit.collider.gameObject.tag == "Block")
-                {
-                    Destroy(hit.collider.gameObject);
-                }
-            }
-        }
-        MapForm();
-    }*/
-
     public void RightButton()
     {
-        speedX++;
-        speedX = Mathf.Clamp(speedX, -9, 10);
+        check();
+        if (buttonTF)
+        {
+            speedX++;
+            speedX = Mathf.Clamp(speedX, -9, 10);
+            blokMove.PlayOneShot(blokMove.clip);
+        }
         Read();
-        stopCheck();
-        MapForm();
-        blokMove.PlayOneShot(blokMove.clip);
+        buttonTF = true;
     }
 
     public void LeftButton()
     {
-        speedX--;
-        speedX = Mathf.Clamp(speedX, -9, 10);
+        check();
+        if (buttonTF)
+        {
+            speedX--;
+            speedX = Mathf.Clamp(speedX, -9, 10);
+            blokMove.PlayOneShot(blokMove.clip);
+        }
         Read();
-        stopCheck();
-        MapForm();
-        blokMove.PlayOneShot(blokMove.clip);
+        buttonTF = true;
     }
 
     public void DownButton()
     {
+        /*check();
+        if (buttonTF)
+        {
+            auto = false;
+            down++;
+            down = Mathf.Clamp(down, 0, 15);
+            blokMove.PlayOneShot(blokMove.clip);
+            auto = true;
+        }
+        else
+        {
+            stopCheck();
+        }*/
+        auto = false;
         down++;
-        Read();
-        stopCheck();
-        MapForm();
+        down = Mathf.Clamp(down, 0, 15);
         blokMove.PlayOneShot(blokMove.clip);
+        Read();
+        //buttonTF = true;
+        auto = true;
     }
 }
