@@ -7,6 +7,8 @@ TagManager:
   - Block
   - cube1
   - cube2
+  - Slider
+  - Collider
   layers:
   - Default
   - TransparentFX

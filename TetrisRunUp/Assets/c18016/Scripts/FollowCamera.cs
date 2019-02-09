@@ -65,7 +65,7 @@ public class FollowCamera : MonoBehaviour {
             //transform.position = camePos;
             transform.position = Vector3.SmoothDamp(transform.position, camePos, ref velocity, smoothTime);
             
-            Debug.Log("up!!");
+            //Debug.Log("up!!");
             isFollow = false;
         }
         

@@ -12,22 +12,13 @@ public class Player : MonoBehaviour {
     //Player Rigidbody
     private Rigidbody rigid;
     public float forceUp;
-    public float jumpWaitTime;
+    public float jumpWaitTime = 1;
 
     //Player position
-    Vector3 playerPos;
-    //Vector3 playerJampPos;
-    
-    /*
-    private float x = 0;
-    private float y = 0;
-    private float z = 0;
-    */
-
-    //int countJump = 0;
+    private Vector3 playerPos;
 
     //private bool isTouch = false;
-    private bool isJump;
+    public static bool isJump;
 
     Vector3 playermovePos;
     Vector3 distan;
@@ -49,16 +40,21 @@ public class Player : MonoBehaviour {
 
     void PlayerMove()
     {
+        //Animation Walk
+
         //playerPos = new Vector3(x, y, z) * speed;
         transform.Translate(Vector3.right * Time.deltaTime * speed);
 
         if (playerCol.isJump())
         {
+            //Animation Jump
             Jump();
         }
 
         if (isJump && playerCol.isHighJump())
         {
+            //Animation HighJump
+
             //Jump();
             Invoke("ButtonJump", jumpWaitTime);
             //ButtonJump();
@@ -75,7 +71,6 @@ public class Player : MonoBehaviour {
     {
         transform.Translate(transform.up * Time.deltaTime * speed);
         rigid.AddForce(transform.up * forceUp);
-        //rigid.AddForce(transform.right * forceRight);
     }
 
     void ButtonJump()
