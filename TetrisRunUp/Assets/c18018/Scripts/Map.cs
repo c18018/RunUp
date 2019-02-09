@@ -43,15 +43,19 @@ public class Map : MonoBehaviour {
     public int mapX;
     public int mapY;
 
-    public int[,,] map = new int[1,20,25];
+    public int[,,] map = new int[1,21,25];
 
     public int[,,] AppearBlc = new int[4,4,4];
-
-    private int high0 = 0;
+    
 
     private void Start()
     {
-        high0 = (int)Math.Truncate(player.transform.position.y);
+        for (int i = 0; i < mapX; i++)
+        {
+            map[0, 0, i] = 3;
+            map[0, 1, i] = 2;
+        }
+        MapForm();
 
         NextBlock();
         nextImage[0].sprite = nextBlock[numSp];
@@ -157,14 +161,18 @@ public class Map : MonoBehaviour {
 
     //----------------------------------------------------------------------------------
     bool auto = true;
-    int high = 0;
+    int upCount = 0;
+    int offset = 0;
+    int offset0 = 0;
 
     void Update ()
     {
 
+        Debug.Log(offset);
+        Debug.Log("up" + upCount);
         playerPosX = (int)Math.Truncate(player.transform.position.x);
-        high = (int)Math.Truncate(player.transform.position.y);
-
+        offset = Mathf.RoundToInt(player.transform.position.y) - (int)Math.Truncate(transform.position.y);
+        
         if(count < playerPosX)
         {
             screenSlidePlus();
@@ -175,8 +183,9 @@ public class Map : MonoBehaviour {
             screenSlideMinus();
             count = playerPosX;
         }
-        if(high0 < high)
+        if(offset > 4 && offset0 < offset)
         {
+            upCount++;
             screenUp();
         }
 
@@ -204,7 +213,7 @@ public class Map : MonoBehaviour {
         {
             delta = 0.5f;
             down++;
-            down = Mathf.Clamp(down, 0, 15);
+            down = Mathf.Clamp(down, 0, 16);
             Read();
         }
 
@@ -221,7 +230,7 @@ public class Map : MonoBehaviour {
 
         for (int i = 0; i < 16; i++)
         {
-            if (map[0, 16 + y - down, 10 + x + speedX] > 1)
+            if (map[0, 17 + y - down, 10 + x + speedX] > 1)
             {
                 buttonTF = false;
                 break;
@@ -243,19 +252,13 @@ public class Map : MonoBehaviour {
 
     void Read()
     {
-        if (down > 15)
-        {
-            next = true;
-            return;
-        }
-
         int x = 0;
         int y = 0;
         for (int i = 0; i < 16; i++)
         {
             if (AppearBlc[pattern, y, x] == 1)
             {
-                map[0, 16 + y - down, 10 + x + speedX] = AppearBlc[pattern, y, x];
+                map[0, 17 + y - down, 10 + x + speedX] = AppearBlc[pattern, y, x];
             }
 
             x++;
@@ -264,10 +267,6 @@ public class Map : MonoBehaviour {
                 x = 0;
                 y++;
             }
-        }
-        for (int i = 0; i < mapX; i++)
-        {
-            map[0, 0, i] = 3;
         }
         stopCheck();
     }
@@ -284,8 +283,7 @@ public class Map : MonoBehaviour {
         {
             if (y > 0 && i == 1 && map[0, y - 1, x] == 3)
             {
-                rankUp = true;
-                next = true;
+                rankUp = true;  
                 break;
             }
 
@@ -339,15 +337,13 @@ public class Map : MonoBehaviour {
         {
             if (map[0, y, x] == 1)
             {
-                Instantiate(cube1, new Vector3(x + playerPosX,
-                    y+(int)Math.Truncate(transform.position.y), 0), Quaternion.identity);
+                Instantiate(cube1, new Vector3(x + playerPosX, y + upCount-1, 0), Quaternion.identity);
                 map[0, y, x] = 0;
             }
 
             if(map[0, y, x] == 2)
             {
-                Instantiate(cube2, new Vector3(x + playerPosX, 
-                    y+(int)Math.Truncate(transform.position.y), 0), Quaternion.identity);
+                Instantiate(cube2, new Vector3(x + playerPosX, y+upCount-1, 0), Quaternion.identity);
                 map[0, y, x] = 3;
                 next = true;
             }
@@ -366,7 +362,15 @@ public class Map : MonoBehaviour {
     void screenUp()
     {
         Array.Copy(map, mapX, map, 0, map.Length - mapX);
-        high0 = high;
+        offset0 = offset;
+        transform.position = new Vector3(transform.position.x,
+            transform.position.y + 1,
+            transform.position.z);
+        down++;
+        for (int i = 0; i < mapX; i++)
+        {
+            map[0, 0, i] = 3;
+        }
     }
 
     void screenSlidePlus()
@@ -433,25 +437,11 @@ public class Map : MonoBehaviour {
 
     public void DownButton()
     {
-        /*check();
-        if (buttonTF)
-        {
-            auto = false;
-            down++;
-            down = Mathf.Clamp(down, 0, 15);
-            blokMove.PlayOneShot(blokMove.clip);
-            auto = true;
-        }
-        else
-        {
-            stopCheck();
-        }*/
         auto = false;
         down++;
-        down = Mathf.Clamp(down, 0, 15);
+        down = Mathf.Clamp(down, 0, 16);
         blokMove.PlayOneShot(blokMove.clip);
         Read();
-        //buttonTF = true;
         auto = true;
     }
 }
