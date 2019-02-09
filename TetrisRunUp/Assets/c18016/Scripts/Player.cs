@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
     PlayerCollider playerCol;
+    SliderController sliderCtrl;
 
     //Player move speed
     public float speed;
@@ -12,22 +13,13 @@ public class Player : MonoBehaviour {
     //Player Rigidbody
     private Rigidbody rigid;
     public float forceUp;
-    public float jumpWaitTime;
+    public float jumpWaitTime = 1;
 
     //Player position
-    Vector3 playerPos;
-    //Vector3 playerJampPos;
-    
-    /*
-    private float x = 0;
-    private float y = 0;
-    private float z = 0;
-    */
-
-    //int countJump = 0;
+    private Vector3 playerPos;
 
     //private bool isTouch = false;
-    private bool isJump;
+    public static bool isJump;
 
     Vector3 playermovePos;
     Vector3 distan;
@@ -35,31 +27,38 @@ public class Player : MonoBehaviour {
     int distanX;
     int distanY;
 
+    GameObject energyOb;
+    public static bool destroyed = false;
+
     // Use this for initialization
     void Start () {
         rigid = gameObject.GetComponent<Rigidbody>();
         playerCol = GetComponentInChildren<PlayerCollider>();
+        sliderCtrl = GameObject.FindGameObjectWithTag("GameCtrl").GetComponent<SliderController>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
         Invoke("PlayerMove", 0.1f);
-        //Debug.Log(playerJampPos);
+        //Debug.Log(playerCol.isJump());
     }
 
     void PlayerMove()
     {
-        //playerPos = new Vector3(x, y, z) * speed;
+        //Animation Walk
+        
         transform.Translate(Vector3.right * Time.deltaTime * speed);
 
         if (playerCol.isJump())
         {
+            //Animation Jump
             Jump();
         }
 
         if (isJump && playerCol.isHighJump())
         {
-            //Jump();
+            //Animation HighJump
+            
             Invoke("ButtonJump", jumpWaitTime);
             //ButtonJump();
         }
@@ -75,7 +74,6 @@ public class Player : MonoBehaviour {
     {
         transform.Translate(transform.up * Time.deltaTime * speed);
         rigid.AddForce(transform.up * forceUp);
-        //rigid.AddForce(transform.right * forceRight);
     }
 
     void ButtonJump()
@@ -86,7 +84,7 @@ public class Player : MonoBehaviour {
 
     public void OnJBDown()
     {
-        if (playerCol.isHighJump())
+        if (playerCol.isHighJump() && sliderCtrl.sliderValue() > 0)
         {
             isJump = true;
         }
@@ -95,5 +93,20 @@ public class Player : MonoBehaviour {
     public void OnJBUp()
     {
             isJump = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Energy")
+        {
+            energyOb = other.gameObject;
+            OnDestroy();
+        }
+    }
+
+    private void OnDestroy()
+    {
+        destroyed = true;
+        Destroy(energyOb);
     }
 }
