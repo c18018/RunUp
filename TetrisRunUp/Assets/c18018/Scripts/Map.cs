@@ -163,13 +163,9 @@ public class Map : MonoBehaviour {
     bool auto = true;
     int upCount = 0;
     int offset = 0;
-    int offset0 = 0;
 
     void Update ()
     {
-        //Debug.Log(player.transform.position.y);
-        Debug.Log(offset);
-        //Debug.Log("up" + upCount);
         playerPosX = (int)Math.Truncate(player.transform.position.x);
         offset = Mathf.RoundToInt(player.transform.position.y) - (int)Math.Truncate(transform.position.y);
         
@@ -183,9 +179,8 @@ public class Map : MonoBehaviour {
             screenSlideMinus();
             count = playerPosX;
         }
-        if(offset > 4 && offset0 < offset)
+        if(offset > 5)
         {
-            upCount++;
             screenUp();
         }
 
@@ -337,13 +332,13 @@ public class Map : MonoBehaviour {
         {
             if (map[0, y, x] == 1)
             {
-                Instantiate(cube1, new Vector3(x + playerPosX, y + upCount-1, 0), Quaternion.identity);
+                Instantiate(cube1, new Vector3(x + playerPosX, y + up-1, 0), Quaternion.identity);
                 map[0, y, x] = 0;
             }
 
             if(map[0, y, x] == 2)
             {
-                Instantiate(cube2, new Vector3(x + playerPosX, y+upCount-1, 0), Quaternion.identity);
+                Instantiate(cube2, new Vector3(x + playerPosX, y+up-1, 0), Quaternion.identity);
                 map[0, y, x] = 3;
                 next = true;
             }
@@ -358,14 +353,15 @@ public class Map : MonoBehaviour {
     }
 
     //cameraがhighrより大きくなるとマップを下げる、playerが１進むとマップが左に１よる----------
+    int up = 0;
 
     void screenUp()
     {
         Array.Copy(map, mapX, map, 0, map.Length - mapX);
-        offset0 = offset;
         transform.position = new Vector3(transform.position.x,
             transform.position.y + 1,
             transform.position.z);
+        up = (int)Math.Truncate(transform.position.y);
         down++;
         for (int i = 0; i < mapX; i++)
         {
