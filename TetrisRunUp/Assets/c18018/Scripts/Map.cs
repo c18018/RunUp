@@ -167,9 +167,9 @@ public class Map : MonoBehaviour {
 
     void Update ()
     {
-
+        //Debug.Log(player.transform.position.y);
         Debug.Log(offset);
-        Debug.Log("up" + upCount);
+        //Debug.Log("up" + upCount);
         playerPosX = (int)Math.Truncate(player.transform.position.x);
         offset = Mathf.RoundToInt(player.transform.position.y) - (int)Math.Truncate(transform.position.y);
         
