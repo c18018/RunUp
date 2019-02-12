@@ -7,6 +7,8 @@ public class Player : MonoBehaviour {
     PlayerCollider playerCol;
     SliderController sliderCtrl;
 
+    Animator roboAni;
+
     //Player move speed
     public float speed;
 
@@ -16,7 +18,7 @@ public class Player : MonoBehaviour {
     public float jumpWaitTime = 1;
 
     //Player position
-    private Vector3 playerPos;
+    //private Vector3 playerPos;
 
     //private bool isTouch = false;
     public static bool isJump;
@@ -35,6 +37,7 @@ public class Player : MonoBehaviour {
         rigid = gameObject.GetComponent<Rigidbody>();
         playerCol = GetComponentInChildren<PlayerCollider>();
         sliderCtrl = GameObject.FindGameObjectWithTag("GameCtrl").GetComponent<SliderController>();
+        roboAni = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -65,13 +68,14 @@ public class Player : MonoBehaviour {
 
         if (FollowCamera.count > 5)
         {
-            playerPos = new Vector3(1, 1, 0);
+            //playerPos = new Vector3(1, 1, 0);
             SceneManager.LoadScene("ScoreResult_test");
         }
     }
 
     void Jump()
     {
+        roboAni.SetTrigger("Jump");
         transform.Translate(transform.up * Time.deltaTime * speed);
         rigid.AddForce(transform.up * forceUp);
     }
@@ -87,12 +91,14 @@ public class Player : MonoBehaviour {
         if (playerCol.isHighJump() && sliderCtrl.sliderValue() > 0)
         {
             isJump = true;
+            roboAni.SetTrigger("Transformers1");
         }
     }
 
     public void OnJBUp()
     {
             isJump = false;
+        roboAni.SetTrigger("Transformers3");
     }
 
     private void OnTriggerEnter(Collider other)
