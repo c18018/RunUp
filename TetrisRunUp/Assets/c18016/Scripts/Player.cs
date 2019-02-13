@@ -34,17 +34,19 @@ public class Player : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        Time.timeScale = 1;
         rigid = gameObject.GetComponent<Rigidbody>();
         playerCol = GetComponentInChildren<PlayerCollider>();
         sliderCtrl = GameObject.FindGameObjectWithTag("GameCtrl").GetComponent<SliderController>();
         roboAni = GetComponent<Animator>();
 	}
+    
 
-    RaycastHit hit
-        ;
+    RaycastHit hit;
 	// Update is called once per frame
-	void Update () {
-        Invoke("PlayerMove", 0.1f);
+	void FixedUpdate() {
+            Invoke("PlayerMove", 0.1f);
+
         if (Physics.Raycast(transform.position, Vector3.up, out hit, Mathf.Infinity))
         {
             Destroy(hit.collider.gameObject);
@@ -121,4 +123,22 @@ public class Player : MonoBehaviour {
         destroyed = true;
         Destroy(energyOb);
     }
+
+
+    public GameObject pausePanel;
+
+    public void PauseButton()
+    {
+        if (Time.timeScale != 0)
+        {
+            Time.timeScale = 0;
+            pausePanel.SetActive(true);
+        }
+        else
+        {
+            Time.timeScale = 1;
+            pausePanel.SetActive(false);
+        }
+    }
+    
 }
