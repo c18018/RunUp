@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class Score : MonoBehaviour {
 
     public GameObject player;
+    public GameObject energy;
     int x;
     int maxX;
     int y;
@@ -29,6 +30,8 @@ public class Score : MonoBehaviour {
         scoreText.text = "" + score;
 	}
 
+    int count = 1;
+    int energyPps = 0;
     void ScoreCal()
     {
         x = (int)player.transform.position.x;
@@ -51,6 +54,14 @@ public class Score : MonoBehaviour {
         }
         
         score = maxX * maxY;
+
+        energyPps = Random.Range(6, 10);
+
+        if(x > 15 * count)
+        {
+            count++;
+            Instantiate(energy, new Vector3(x + energyPps, y + energyPps, 0), Quaternion.identity);
+        }
 
         /*if(FollowCamera.count > 7)
         {

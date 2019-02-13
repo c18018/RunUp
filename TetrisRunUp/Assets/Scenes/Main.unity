@@ -1243,6 +1243,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 775935130}
+  energy: {fileID: 1836652039022584, guid: f8e7d3c4dc039d545bf22f5bcdaf98bb, type: 2}
   scoreText: {fileID: 777338356}
 --- !u!114 &951096354
 MonoBehaviour:

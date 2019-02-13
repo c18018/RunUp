@@ -24,12 +24,12 @@ public class SceneController : MonoBehaviour {
 
     public void OnClickStart()
     {
-        SceneManager.LoadScene("ScoreProto_c18016");
+        SceneManager.LoadScene("Main");
     }
 
     public void OnClickAgain()
     {
-        SceneManager.LoadScene("ScoreProto_c18016");
+        SceneManager.LoadScene("Main");
     }
 
     public void OnClickTitle()
