@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Map : MonoBehaviour {
     
@@ -161,7 +162,7 @@ public class Map : MonoBehaviour {
 
     //----------------------------------------------------------------------------------
     bool auto = true;
-    int upCount = 0;
+    //int upCount = 0;
     int offset = 0;
 
     void Update ()
@@ -247,6 +248,13 @@ public class Map : MonoBehaviour {
 
     void Read()
     {
+        for (int i = 0; i < mapX; i++)
+        {
+            if (map[0, 15, i] == 3)
+            {
+                SceneManager.LoadScene("ScoreResult_test");
+            }
+        }
         int x = 0;
         int y = 0;
         for (int i = 0; i < 16; i++)

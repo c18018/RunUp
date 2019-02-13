@@ -5,7 +5,7 @@ using UnityEditor;
 
 public class PlayerPrefsEditor : MonoBehaviour {
 
-    [MenuItem("Tools/PlayerPrefs/DeleteAll")]
+    /*[MenuItem("Tools/PlayerPrefs/DeleteAll")]
     static void DeleteAll()
     {
         PlayerPrefs.DeleteAll();
@@ -20,5 +20,5 @@ public class PlayerPrefsEditor : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-	}
+	}*/
 }

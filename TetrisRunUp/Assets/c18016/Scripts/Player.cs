@@ -39,10 +39,16 @@ public class Player : MonoBehaviour {
         sliderCtrl = GameObject.FindGameObjectWithTag("GameCtrl").GetComponent<SliderController>();
         roboAni = GetComponent<Animator>();
 	}
-	
+
+    RaycastHit hit
+        ;
 	// Update is called once per frame
 	void Update () {
         Invoke("PlayerMove", 0.1f);
+        if (Physics.Raycast(transform.position, Vector3.up, out hit, Mathf.Infinity))
+        {
+            Destroy(hit.collider.gameObject);
+        }
         //Debug.Log(playerCol.isJump());
     }
 
