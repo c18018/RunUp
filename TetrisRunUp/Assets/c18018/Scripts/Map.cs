@@ -22,11 +22,7 @@ public class Map : MonoBehaviour {
     int pattern1;
     int pattern2;
     int numSp;
-
-    public GameObject player;
-    int playerPosX=0;
-    int count = 2;
-
+    
     public GameObject cameraPos;
 
     int state = 0;
@@ -68,7 +64,7 @@ public class Map : MonoBehaviour {
     }
 
 
-    //--------------------------------------------------------------------------
+    //生成されるブロックの種類-----------------------------------------------------------
 
     void random()
     {
@@ -164,6 +160,9 @@ public class Map : MonoBehaviour {
     bool auto = true;
     //int upCount = 0;
     int offset = 0;
+    public GameObject player;
+    int playerPosX = 0;
+    int count = 2;
 
     void Update ()
     {
@@ -175,11 +174,13 @@ public class Map : MonoBehaviour {
             screenSlidePlus();
             count = playerPosX;
         }
+
         if(count > playerPosX)
         {
             screenSlideMinus();
             count = playerPosX;
         }
+
         if(offset > 5)
         {
             screenUp();
@@ -215,7 +216,9 @@ public class Map : MonoBehaviour {
 
     }
 
-    //ランダムに生成したブロックをマップ配列に移すーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+
+    //マップに移す所にブロックがあるか確認する
+
 
     bool buttonTF = true;
 
@@ -245,6 +248,7 @@ public class Map : MonoBehaviour {
     }
 
 
+    //ランダムに生成したブロックをマップ配列に移すーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
 
     void Read()
     {
@@ -419,7 +423,7 @@ public class Map : MonoBehaviour {
         if (buttonTF)
         {
             speedX++;
-            speedX = Mathf.Clamp(speedX, -9, 10);
+            speedX = Mathf.Clamp(speedX, -10, 10);
             blokMove.PlayOneShot(blokMove.clip);
         }
         Read();
@@ -432,7 +436,7 @@ public class Map : MonoBehaviour {
         if (buttonTF)
         {
             speedX--;
-            speedX = Mathf.Clamp(speedX, -9, 10);
+            speedX = Mathf.Clamp(speedX, -10, 10);
             blokMove.PlayOneShot(blokMove.clip);
         }
         Read();
