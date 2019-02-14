@@ -8,6 +8,8 @@ public class Player : MonoBehaviour {
     SliderController sliderCtrl;
 
     Animator roboAni;
+    AudioSource jumpSE;
+    public AudioClip jump, highjump;
 
     //Player move speed
     public float speed;
@@ -22,6 +24,7 @@ public class Player : MonoBehaviour {
 
     //private bool isTouch = false;
     public static bool isJump;
+    bool jumpAni = true;
 
     Vector3 playermovePos;
     Vector3 distan;
@@ -38,6 +41,7 @@ public class Player : MonoBehaviour {
         rigid = gameObject.GetComponent<Rigidbody>();
         playerCol = GetComponentInChildren<PlayerCollider>();
         sliderCtrl = GameObject.FindGameObjectWithTag("GameCtrl").GetComponent<SliderController>();
+        jumpSE = GameObject.FindGameObjectWithTag("GameCtrl").GetComponent<AudioSource>();
         roboAni = GetComponent<Animator>();
 	}
     
@@ -64,6 +68,10 @@ public class Player : MonoBehaviour {
         {
             Jump();
         }
+        else
+        {
+            jumpAni = true;
+        }
 
         if (isJump)
         {
@@ -80,13 +88,20 @@ public class Player : MonoBehaviour {
 
     void Jump()
     {
-        roboAni.SetTrigger("Jump");
+        jumpSE.PlayOneShot(jump);
+        if (jumpAni)
+        {
+            roboAni.SetTrigger("Jump");
+            jumpAni = false;
+        }
+       
         transform.Translate(transform.up * Time.deltaTime * speed);
         rigid.AddForce(transform.up * forceUp);
     }
 
     void ButtonJump()
     {
+        jumpSE.PlayOneShot(highjump);
         transform.Translate(transform.up * Time.deltaTime * speed);
         rigid.AddForce((transform.up - rigid.velocity) * forceUp * 3);
     }
