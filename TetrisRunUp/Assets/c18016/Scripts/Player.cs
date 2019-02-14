@@ -62,14 +62,11 @@ public class Player : MonoBehaviour {
 
         if (playerCol.isJump())
         {
-            //Animation Jump
             Jump();
         }
 
-        if (isJump && playerCol.isHighJump())
+        if (isJump)
         {
-            //Animation HighJump
-            
             Invoke("ButtonJump", jumpWaitTime);
             //ButtonJump();
         }
@@ -96,7 +93,7 @@ public class Player : MonoBehaviour {
 
     public void OnJBDown()
     {
-        if (playerCol.isHighJump() && sliderCtrl.sliderValue() > 0)
+        if (sliderCtrl.sliderValue() > 0)
         {
             isJump = true;
             roboAni.SetTrigger("Transformers1");

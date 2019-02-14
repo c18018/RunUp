@@ -31,15 +31,15 @@ public class SliderController : MonoBehaviour {
 
     void SliderEnergy()
     {
-        if (Player.isJump && playerCollider.isHighJump())
+        if (Player.isJump)
         {
             Timer();
 
-            if (timer > 2 && playerCollider.isHighJump() /*&& jumpEnergy > 0*/)
+            if (timer > 2)
             {
                 jumpEnergy -= 20 * Time.deltaTime;
 
-                if (jumpEnergy < slider.minValue && playerCollider.isHighJump())
+                if (jumpEnergy < slider.minValue)
                 {
                     Player.isJump = false;
                     Debug.Log("Empty");

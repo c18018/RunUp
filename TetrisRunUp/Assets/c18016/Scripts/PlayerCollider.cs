@@ -6,7 +6,7 @@ public class PlayerCollider : MonoBehaviour {
 
     bool touch = false;
     bool jump = false;
-    bool highJump = false;
+    //bool highJump = false;
 
     public bool isTouch()
     {
@@ -18,10 +18,10 @@ public class PlayerCollider : MonoBehaviour {
         return jump;
     }
 
-    public bool isHighJump()
+    /*public bool isHighJump()
     {
         return highJump;
-    }
+    }*/
 
     // Use this for initialization
     void Start () {
@@ -49,7 +49,7 @@ public class PlayerCollider : MonoBehaviour {
         if(other.gameObject.tag == "Block")
         {
             //touch = true;
-            highJump = true;
+            //jump = true;
         }
     }
 
@@ -60,7 +60,7 @@ public class PlayerCollider : MonoBehaviour {
         {
             //touch = false;
             jump = false;
-            highJump = false;
+            //highJump = false;
         }
     }
 
