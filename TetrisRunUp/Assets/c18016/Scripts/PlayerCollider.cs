@@ -25,31 +25,42 @@ public class PlayerCollider : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        
 	}
 	
 	// Update is called once per frame
 	void Update () { 
         //Debug.Log(jump);
-	}
+        //Debug.Log(time);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         //Debug.Log("Enter");
         if (other.gameObject.tag == "Block")
         {
-            //touch = true;
             jump = true;
+            //touch = true;
         }
     }
 
+    /*void JumpTime()
+    {
+        time = 0;
+        float span = 1.0f;
+        time += Time.deltaTime;
+        if(time < span)
+        {
+            jump = true;
+        }
+    }*/
+    
     void OnTriggerStay(Collider other)
     {
         //Debug.Log("Stay");
         if(other.gameObject.tag == "Block")
         {
             //touch = true;
-            //jump = true;
+            //jump = false;
         }
     }
 

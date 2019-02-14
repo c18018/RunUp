@@ -9,7 +9,7 @@ public class Player : MonoBehaviour {
 
     Animator roboAni;
     AudioSource jumpSE;
-    public AudioClip jump, highjump;
+    public AudioClip jump, highjump,decision,fallOcean;
 
     //Player move speed
     public float speed;
@@ -24,7 +24,8 @@ public class Player : MonoBehaviour {
 
     //private bool isTouch = false;
     public static bool isJump;
-    bool jumpAni = true;
+    bool jumpAni = false;
+    bool isSound = false;
 
     Vector3 playermovePos;
     Vector3 distan;
@@ -34,6 +35,12 @@ public class Player : MonoBehaviour {
 
     GameObject energyOb;
     public static bool destroyed = false;
+
+    float timer = 0.0f;
+    float interval = 0.5f;
+
+    float timer2 = 1.0f;
+    float interval2 = 1.0f;
 
     // Use this for initialization
     void Start () {
@@ -55,7 +62,8 @@ public class Player : MonoBehaviour {
         {
             Destroy(hit.collider.gameObject);
         }
-        //Debug.Log(playerCol.isJump());
+        //Debug.Log(timer);
+        Debug.Log(isSound);
     }
 
     void PlayerMove()
@@ -64,36 +72,63 @@ public class Player : MonoBehaviour {
         
         transform.Translate(Vector3.right * Time.deltaTime * speed);
 
+        timer += Time.deltaTime;
+        if (timer > interval)
+        {
+            TimeInterval();
+            timer = 0;
+        }
+
         if (playerCol.isJump())
         {
-            Jump();
-        }
-        else
-        {
             jumpAni = true;
+            Jump();
         }
 
         if (isJump)
         {
             Invoke("ButtonJump", jumpWaitTime);
-            //ButtonJump();
         }
 
         if (FollowCamera.count > 5)
         {
+            isSound = true;
+            timer2 += Time.deltaTime;
+            if (timer2 > interval2)
+            {
+                TimeInterval2();
+                timer2 = 0;
+            }
+            
             //playerPos = new Vector3(1, 1, 0);
-            SceneManager.LoadScene("ScoreResult_test");
+            
+            Invoke("ResultScene", 1.0f);
         }
+    }
+
+    void TimeInterval2()
+    {
+        if (isSound)
+        {
+            jumpSE.PlayOneShot(fallOcean);
+            isSound = false;
+        }
+    }
+
+    void ResultScene()
+    {
+        SceneManager.LoadScene("ScoreResult_test");
     }
 
     void Jump()
     {
-        jumpSE.PlayOneShot(jump);
-        if (jumpAni)
+        
+        /*if (jumpAni)
         {
             roboAni.SetTrigger("Jump");
             jumpAni = false;
-        }
+            jumpSE.PlayOneShot(jump);
+        }*/
        
         transform.Translate(transform.up * Time.deltaTime * speed);
         rigid.AddForce(transform.up * forceUp);
@@ -101,9 +136,18 @@ public class Player : MonoBehaviour {
 
     void ButtonJump()
     {
-        jumpSE.PlayOneShot(highjump);
         transform.Translate(transform.up * Time.deltaTime * speed);
         rigid.AddForce((transform.up - rigid.velocity) * forceUp * 3);
+    }
+
+    void TimeInterval()
+    {
+        if (jumpAni)
+        {
+            roboAni.SetTrigger("Jump");
+            jumpSE.PlayOneShot(jump);
+            jumpAni = false;
+        }
     }
 
     public void OnJBDown()
@@ -111,12 +155,14 @@ public class Player : MonoBehaviour {
         if (sliderCtrl.sliderValue() > 0)
         {
             isJump = true;
+            jumpSE.PlayOneShot(highjump);
             roboAni.SetTrigger("Transformers1");
         }
     }
 
     public void OnJBUp()
     {
+        jumpSE.Stop();
             isJump = false;
         roboAni.SetTrigger("Transformers3");
     }
@@ -136,18 +182,19 @@ public class Player : MonoBehaviour {
         Destroy(energyOb);
     }
 
-
     public GameObject pausePanel;
 
     public void PauseButton()
     {
         if (Time.timeScale != 0)
         {
+            jumpSE.PlayOneShot(decision);
             Time.timeScale = 0;
             pausePanel.SetActive(true);
         }
         else
         {
+            jumpSE.PlayOneShot(decision);
             Time.timeScale = 1;
             pausePanel.SetActive(false);
         }
