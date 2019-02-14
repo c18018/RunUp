@@ -60,7 +60,7 @@ public class Score : MonoBehaviour {
         if(x > 15 * count)
         {
             count++;
-            Instantiate(energy, new Vector3(x + energyPps, y + energyPps, 0), Quaternion.identity);
+            Instantiate(energy, new Vector3(x + energyPps, y + energyPps + 0.5f, 0), Quaternion.Euler(-20,-90,0));
         }
 
         /*if(FollowCamera.count > 7)

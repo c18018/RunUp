@@ -1157,10 +1157,10 @@ MonoBehaviour:
   nextImage:
   - {fileID: 1382844377}
   - {fileID: 224390440}
-  player: {fileID: 775935130}
   cameraPos: {fileID: 1454163252}
   mapX: 25
   mapY: 21
+  player: {fileID: 775935130}
 --- !u!82 &821900841
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1384,7 +1384,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 775935130}
-  energy: {fileID: 1836652039022584, guid: f8e7d3c4dc039d545bf22f5bcdaf98bb, type: 2}
+  energy: {fileID: 1882074759339936, guid: d085e77c73df5b84ca889701cb8e3b12, type: 2}
   scoreText: {fileID: 777338356}
 --- !u!114 &951096354
 MonoBehaviour:
