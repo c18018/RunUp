@@ -39,8 +39,8 @@ public class Player : MonoBehaviour {
     float timer = 0.0f;
     float interval = 0.5f;
 
-    float timer2 = 1.0f;
-    float interval2 = 1.0f;
+    float timer2 = 0.0f;
+    float interval2 = 0.0f;
 
     // Use this for initialization
     void Start () {
@@ -62,7 +62,7 @@ public class Player : MonoBehaviour {
             Destroy(hit.collider.gameObject);
         }
         //Debug.Log(timer);
-        Debug.Log(isSound);
+        Debug.Log(timer2);
     }
 
     void PlayerMove()
@@ -89,19 +89,21 @@ public class Player : MonoBehaviour {
             Invoke("ButtonJump", jumpWaitTime);
         }
 
-        if (FollowCamera.count > 5)
+        if(FollowCamera.count > 3)
         {
             isSound = true;
             timer2 += Time.deltaTime;
             if (timer2 > interval2)
             {
                 TimeInterval2();
-                timer2 = 0;
+                timer2 = -2.0f;
             }
-            
+
+        }
+        if (FollowCamera.count > 5)
+        {
             //playerPos = new Vector3(1, 1, 0);
-            
-            Invoke("ResultScene", 1.0f);
+            Invoke("ResultScene", 0.7f);
         }
     }
 

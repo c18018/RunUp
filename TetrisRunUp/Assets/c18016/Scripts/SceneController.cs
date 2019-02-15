@@ -82,6 +82,7 @@ public class SceneController : MonoBehaviour {
             {
                 TimeInterval();
                 Debug.Log("hai");
+                timer = 1.0f;
             }
             score = Score.score;
             if(PlayerPrefs.GetInt("HighScore") <score)
