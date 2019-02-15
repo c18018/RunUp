@@ -257,7 +257,7 @@ public class Map : MonoBehaviour {
         {
             if (map[0, 15, i] == 3)
             {
-                SceneManager.LoadScene("ScoreResult_test");
+                SceneManager.LoadScene("Result");
             }
         }
         int x = 0;

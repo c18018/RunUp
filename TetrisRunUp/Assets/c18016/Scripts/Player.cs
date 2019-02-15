@@ -44,7 +44,6 @@ public class Player : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Time.timeScale = 1;
         rigid = gameObject.GetComponent<Rigidbody>();
         playerCol = GetComponentInChildren<PlayerCollider>();
         sliderCtrl = GameObject.FindGameObjectWithTag("GameCtrl").GetComponent<SliderController>();

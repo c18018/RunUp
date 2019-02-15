@@ -19,6 +19,7 @@ public class SceneController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        Time.timeScale = 1;
         click = gameObject.GetComponent<AudioSource>();
 	}
 	
@@ -47,6 +48,7 @@ public class SceneController : MonoBehaviour {
 
     public void OnClickTitle()
     {
+        Debug.Log("title");
         click.PlayOneShot(Decision);
         Invoke("TitleScene", 0.4f);
     }
@@ -55,6 +57,14 @@ public class SceneController : MonoBehaviour {
     {
         SceneManager.LoadScene("Title");
     }
+
+    public void OnClickResult()
+    {
+        click.PlayOneShot(Decision);
+        SceneManager.LoadScene("Result");
+        //Invoke("ResultScene", 0.4f*Time.deltaTime);
+    }
+    
 
     /*public void OnClickJump()
     {

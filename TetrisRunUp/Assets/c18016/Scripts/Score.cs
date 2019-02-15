@@ -55,12 +55,12 @@ public class Score : MonoBehaviour {
         
         score = maxX * maxY;
 
-        energyPps = Random.Range(6, 10);
+        energyPps = Random.Range(10, 20);
 
-        if(x > 15 * count)
+        if(y > 4 * count)
         {
             count++;
-            Instantiate(energy, new Vector3(x + energyPps, y + energyPps + 0.5f, 0), Quaternion.Euler(-20,-90,0));
+            Instantiate(energy, new Vector3(x + energyPps, y + 4 + 0.5f, 0), Quaternion.Euler(-20,-90,0));
         }
 
         /*if(FollowCamera.count > 7)
