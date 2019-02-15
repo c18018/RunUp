@@ -424,7 +424,7 @@ public class Map : MonoBehaviour {
         if (buttonTF)
         {
             speedX++;
-            speedX = Mathf.Clamp(speedX, -10, 10);
+            speedX = Mathf.Clamp(speedX, -9, 10);
             blokMove.PlayOneShot(blokMove.clip);
         }
         Read();
@@ -437,7 +437,7 @@ public class Map : MonoBehaviour {
         if (buttonTF)
         {
             speedX--;
-            speedX = Mathf.Clamp(speedX, -10, 10);
+            speedX = Mathf.Clamp(speedX, -9, 10);
             blokMove.PlayOneShot(blokMove.clip);
         }
         Read();
