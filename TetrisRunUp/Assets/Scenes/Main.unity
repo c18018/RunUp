@@ -842,7 +842,7 @@ MonoBehaviour:
   decision: {fileID: 8300000, guid: a3dbce7ee461efc41a694d4d3210469f, type: 3}
   fallOcean: {fileID: 8300000, guid: 8dec7db8808d6d34f8e0a0094f711b80, type: 3}
   speed: 1
-  forceUp: 15
+  forceUp: 20
   jumpWaitTime: 1
   pausePanel: {fileID: 1508538633}
 --- !u!136 &775935134
