@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114906274831569186}
   m_Layer: 0
   m_Name: Afterburner 1
-  m_TagString: Untagged
+  m_TagString: Effect
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -67,7 +67,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1010795985111480}
   m_LocalRotation: {x: 0.70584834, y: -0, z: -0, w: 0.70836306}
-  m_LocalPosition: {x: 0, y: 0.0491, z: -0.0002}
+  m_LocalPosition: {x: 8.738142, y: 3.5835729, z: 1.9016285}
   m_LocalScale: {x: 0.025, y: 0.025, z: 0.025}
   m_Children:
   - {fileID: 4244734657922560}
@@ -108,8 +108,8 @@ ParticleSystem:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1818849575008496}
   serializedVersion: 5
-  lengthInSec: 1
-  simulationSpeed: 1
+  lengthInSec: 6.12
+  simulationSpeed: 0.98
   stopAction: 0
   looping: 1
   prewarm: 0
@@ -120,7 +120,7 @@ ParticleSystem:
   startDelay:
     serializedVersion: 2
     minMaxState: 0
-    scalar: 0
+    scalar: 20
     minScalar: 0
     maxCurve:
       serializedVersion: 2
@@ -215,7 +215,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 32
+      scalar: 12.04
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -269,7 +269,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 1, g: 0.1639642, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -331,7 +331,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 6
+      scalar: 8
       minScalar: 4
       maxCurve:
         serializedVersion: 2
@@ -575,13 +575,13 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 1000
+    maxNumParticles: 100
     size3D: 0
     rotation3D: 0
     gravityModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: -1.21
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -4623,7 +4623,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.8
+      scalar: 0.78
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -4676,7 +4676,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 4.24
+      scalar: 5.18
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -4730,7 +4730,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 0.8679245, g: 0.08597365, b: 0.08597365, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4792,8 +4792,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1.4
-      minScalar: 1.2
+      scalar: 1.36
+      minScalar: 0.62
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5036,7 +5036,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 1000
+    maxNumParticles: 100
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -7815,7 +7815,7 @@ ParticleSystem:
     separateAxes: 0
     range: {x: 0, y: 1}
   ColorBySpeedModule:
-    enabled: 0
+    enabled: 1
     gradient:
       serializedVersion: 2
       minMaxState: 1
@@ -7823,7 +7823,7 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 0.6792453, g: 0, b: 0, a: 1}
         key1: {r: 1, g: 1, b: 1, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}

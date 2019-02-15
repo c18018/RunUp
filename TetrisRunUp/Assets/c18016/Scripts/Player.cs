@@ -134,7 +134,7 @@ public class Player : MonoBehaviour {
         transform.Translate(transform.up * Time.deltaTime * speed);
         rigid.AddForce(transform.up * forceUp);
     }
-
+    
     void ButtonJump()
     {
         transform.Translate(transform.up * Time.deltaTime * speed);
@@ -151,6 +151,9 @@ public class Player : MonoBehaviour {
         }
     }
 
+    public GameObject effect;
+    GameObject Effect;
+
     public void OnJBDown()
     {
         if (sliderCtrl.sliderValue() > 0)
@@ -158,7 +161,16 @@ public class Player : MonoBehaviour {
             isJump = true;
             jumpSE.PlayOneShot(highjump);
             roboAni.SetTrigger("Transformers1");
+            Invoke("EffectIns", 1.0f);
         }
+    }
+
+    void EffectIns()
+    {
+        Effect = (GameObject)Instantiate(effect, new Vector3(transform.position.x - 0.6f,
+             transform.position.y - 0.7f, transform.position.z),
+             Quaternion.Euler(90, 0, 0));
+        Effect.transform.parent = gameObject.transform;
     }
 
     public void OnJBUp()
@@ -166,6 +178,17 @@ public class Player : MonoBehaviour {
         jumpSE.Stop();
             isJump = false;
         roboAni.SetTrigger("Transformers3");
+        GameObject[] Effect = GameObject.FindGameObjectsWithTag("Effect");
+        foreach (GameObject i in Effect)
+        {
+            Destroy(i);
+        }
+        //Invoke("effectDes", 1.0f);
+    }
+
+    void effectDes()
+    {
+        
     }
 
     private void OnTriggerEnter(Collider other)
