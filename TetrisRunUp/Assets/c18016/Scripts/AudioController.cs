@@ -30,13 +30,13 @@ public class AudioController : MonoBehaviour {
 
                 game_ob.name = "Audio";
             }
-        }else if(SceneManager.GetActiveScene().name == "ScoreResult_test" && !GameObject.Find("Audio"))
+        }else if(SceneManager.GetActiveScene().name == "Result" && !GameObject.Find("Audio"))
         {
             game_ob = Instantiate(bgm_ob[0], transform.position, Quaternion.identity);
 
             game_ob.name = "Audio";
             DontDestroyOnLoad(game_ob);
-        }else if(SceneManager.GetActiveScene().name == "Title_test" && !GameObject.Find("Audio"))
+        }else if(SceneManager.GetActiveScene().name == "Title" && !GameObject.Find("Audio"))
         {
             game_ob = Instantiate(bgm_ob[0], transform.position, Quaternion.identity);
 

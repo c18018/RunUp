@@ -53,7 +53,7 @@ public class SceneController : MonoBehaviour {
 
     void TitleScene()
     {
-        SceneManager.LoadScene("Title_test");
+        SceneManager.LoadScene("Title");
     }
 
     /*public void OnClickJump()
@@ -65,7 +65,7 @@ public class SceneController : MonoBehaviour {
 
     void IsScene()
     {
-        if (SceneManager.GetActiveScene().name == "ScoreResult_test")
+        if (SceneManager.GetActiveScene().name == "Result")
         {
             timer += Time.deltaTime;
             if(timer <0.2)

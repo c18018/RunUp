@@ -117,7 +117,7 @@ public class Player : MonoBehaviour {
 
     void ResultScene()
     {
-        SceneManager.LoadScene("ScoreResult_test");
+        SceneManager.LoadScene("Result");
     }
 
     void Jump()
