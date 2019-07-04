@@ -2,7 +2,7 @@
 
 ## ファイル構成  
 * [Unityデータ](./testgame/)  
-* [ビルドデータ]()  
+* [ビルドデータ](./Executable/)  
 
 ## 概要  
 
@@ -10,8 +10,8 @@
 横スクロールパズルアクション
 
 ## プラットフォーム  
-* [Androidビルドデータ]()  
-* [Windowsビルドデータ]()  
+* [Androidビルドデータ](./Executable/roborisuran_Android/)  
+* [Windowsビルドデータ](/Executable/roborisuran_Windows/)  
 
 ## 担当ブログラムファイル  
 * [画面外に出たオブジェクトの削除](./TetrisRunUp/Assets/c18018/Scripts/BlockExit.cs)  
