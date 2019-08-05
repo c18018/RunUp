@@ -1,7 +1,7 @@
 # roborisuran
 
 ## ファイル構成  
-* [Unityデータ](./testgame/)  
+* [Unityデータ](./TetrisRunUp/)  
 * [ビルドデータ](./Executable/)  
 
 ## 概要  
