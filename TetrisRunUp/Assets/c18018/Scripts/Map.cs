@@ -40,6 +40,7 @@ public class Map : MonoBehaviour {
     public int mapX;
     public int mapY;
 
+    //　シーン上に高さ２１幅２５の配列を作る
     public int[,,] map = new int[1,21,25];
 
     public int[,,] AppearBlc = new int[4,4,4];
@@ -64,8 +65,7 @@ public class Map : MonoBehaviour {
     }
 
 
-    //生成されるブロックの種類-----------------------------------------------------------
-
+    // 生成されるブロックの種類
     void random()
     {
         switch (state)
@@ -145,8 +145,7 @@ public class Map : MonoBehaviour {
     }
 
 
-    //--------------------------------------------------------------------------------
-
+    // ブロックをランダムに選ぶ、次のブロックイメージをだす
     void NextBlock()
     {
         kind2 = UnityEngine.Random.Range(0, 7);
@@ -157,9 +156,8 @@ public class Map : MonoBehaviour {
         nextImage[1].sprite = nextBlock[numSp];
     }
 
-    //----------------------------------------------------------------------------------
+    
     bool auto = true;
-    //int upCount = 0;
     int offset = 0;
     public GameObject player;
     int playerPosX = 0;
@@ -167,26 +165,34 @@ public class Map : MonoBehaviour {
 
     void Update ()
     {
+        //　プレイヤーX　小数点以下を切り捨てる
         playerPosX = (int)Math.Truncate(player.transform.position.x);
+        //　プレイヤーY　四捨五入　と　このオブジェクトY　切り捨て　の差
         offset = Mathf.RoundToInt(player.transform.position.y) - (int)Math.Truncate(transform.position.y);
         
+        //　プレイヤーXが前の座標より１進んでいたら、配列の座標も１つ進める
         if(count < playerPosX)
         {
             screenSlidePlus();
             count = playerPosX;
         }
 
+       //　プレイヤーXが前の座標より１下がっていたら、配列の座標も１つ下げる
         if(count > playerPosX)
         {
             screenSlideMinus();
             count = playerPosX;
         }
 
+
+        //　プレイヤーYとこのオブジェクトYの差が５以上だったら配列を１つ上げる
         if(offset > 5)
         {
             screenUp();
         }
 
+
+        //　次のブロックを出していい状態になったら、これから出るブロック画を入れ替える
         if (next)
         {
             kind = kind1;
@@ -202,11 +208,13 @@ public class Map : MonoBehaviour {
             next = false;
         }
 
+        //　一秒を測る
         if (auto)
         {
             delta -= Time.deltaTime;
         }
         
+        //　一秒ごとにブロックYを１つ下げる
         if(delta <= 0)
         {
             delta = 0.5f;
@@ -219,10 +227,7 @@ public class Map : MonoBehaviour {
 
 
     //マップに移す所にブロックがあるか確認する
-
-
     bool buttonTF = true;
-
     void check()
     {
         int x = 0;
@@ -249,8 +254,7 @@ public class Map : MonoBehaviour {
     }
 
 
-    //ランダムに生成したブロックをマップ配列に移すーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
-
+    //ランダムに生成したブロックをマップ配列に移す
     void Read()
     {
         for (int i = 0; i < mapX; i++)
@@ -280,8 +284,7 @@ public class Map : MonoBehaviour {
     }
 
 
-    //下が２または３のブロックを2に変えるーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
-
+    //下にブロックがある場合は、動かないブロックに変える。
     void stopCheck()
     {
         int x = 0;
@@ -302,6 +305,7 @@ public class Map : MonoBehaviour {
                 y++;
             }
         }
+
 
         if (rankUp)
         {
@@ -328,8 +332,7 @@ public class Map : MonoBehaviour {
     }
     
 
-    //一回cube1タグのオブジェクトを消す。マップ配列の数字の通りにブロックを生成する。ーーーーーーーーーーーーーーーーーー
-
+    //一回cube1タグのオブジェクトを消す。マップ配列の数字の通りにブロックを生成する。
     void MapForm()
     {
         int x = 0;
@@ -365,9 +368,9 @@ public class Map : MonoBehaviour {
         }
     }
 
-    //cameraがhighrより大きくなるとマップを下げる、playerが１進むとマップが左に１よる----------
-    int up = 0;
 
+    //cameraがhighrより大きくなるとマップを下げる、playerが１進むとマップが左に１よる
+    int up = 0;
     void screenUp()
     {
         Array.Copy(map, mapX, map, 0, map.Length - mapX);
@@ -382,6 +385,8 @@ public class Map : MonoBehaviour {
         }
     }
 
+
+    // 配列を右に１つずらす
     void screenSlidePlus()
     {
         for (int i = 0; i < mapY; i++)
@@ -393,6 +398,8 @@ public class Map : MonoBehaviour {
         Read();
     }
      
+
+    //　配列を左に１つずらす
     void screenSlideMinus()
     {
         for (int i = 0; i < mapY; i++)
@@ -404,8 +411,8 @@ public class Map : MonoBehaviour {
         Read();
     }
 
-    //------------------------------------------------------------------------
 
+    //　緑のボタンを押すとブロックを回転させる
     public void RotaButton()
     {
         pattern++;
@@ -418,6 +425,8 @@ public class Map : MonoBehaviour {
         blokMove.PlayOneShot(blokMove.clip);
     }
 
+
+    //　右のボタンを押すとブロックを右に移動させる
     public void RightButton()
     {
         check();
@@ -431,6 +440,8 @@ public class Map : MonoBehaviour {
         buttonTF = true;
     }
 
+
+    //　左のボタンを押すとブロックを左に移動させる
     public void LeftButton()
     {
         check();
@@ -444,6 +455,8 @@ public class Map : MonoBehaviour {
         buttonTF = true;
     }
 
+
+    //　下のボタンを押すとブロックを下に移動させる
     public void DownButton()
     {
         auto = false;

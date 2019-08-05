@@ -18,6 +18,8 @@ public class Pause : MonoBehaviour
         playerRid = player.GetComponent<Rigidbody>();
     }
 
+
+    //ポーズボタンを押したら止まる
     public void PauseButton()
     {
         if (Time.timeScale != 0)
